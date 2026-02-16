@@ -71,7 +71,7 @@
           {
             "ageGroup": "U13 ⬆️",
             "title": "Mátra Kör",
-            "description": "Hegyes-dombos terepen zajló országúti verseny, több emelkedővel.",
+            "description": "Hegyi országúti verseny. Gyöngyös-Mátraháza",
             "medal": "🥈",
             "place": "2. hely",
             "placeColor": "text-gray-300"
@@ -104,10 +104,28 @@
             "title": "Szlovák Kupa – Budapest",
             "description": "Lassú kör: 40–43 km/h · Sprintek: 47–50 km/h",
             "subResults": [
-              { "medal": "🥈", "event": "Scratch", "place": "2. hely" },
-              { "medal": "🥈", "event": "Pontverseny", "place": "2. hely" },
-              { "medal": "🥈", "event": "Elimináció", "place": "2. hely" },
-              { "medal": "🥈", "event": "Omnium összesített", "place": "2. hely", "isTotal": true, "totalColor": "text-neon-blue" }
+              {
+                "medal": "🥈",
+                "event": "Scratch",
+                "place": "2. hely"
+              },
+              {
+                "medal": "🥈",
+                "event": "Pontverseny",
+                "place": "2. hely"
+              },
+              {
+                "medal": "🥈",
+                "event": "Elimináció",
+                "place": "2. hely"
+              },
+              {
+                "medal": "🥈",
+                "event": "Omnium összesített",
+                "place": "2. hely",
+                "isTotal": true,
+                "totalColor": "text-neon-blue"
+              }
             ]
           },
           {
@@ -115,10 +133,28 @@
             "title": "Szlovák Kupa – Prága",
             "description": "",
             "subResults": [
-              { "medal": "🥉", "event": "Scratch", "place": "3. hely" },
-              { "medal": "🥉", "event": "Pontverseny", "place": "3. hely" },
-              { "medal": "🥈", "event": "Elimináció", "place": "2. hely" },
-              { "medal": "🥉", "event": "Omnium összesített", "place": "3. hely", "isTotal": true, "totalColor": "text-amber-400" }
+              {
+                "medal": "🥉",
+                "event": "Scratch",
+                "place": "3. hely"
+              },
+              {
+                "medal": "🥉",
+                "event": "Pontverseny",
+                "place": "3. hely"
+              },
+              {
+                "medal": "🥈",
+                "event": "Elimináció",
+                "place": "2. hely"
+              },
+              {
+                "medal": "🥉",
+                "event": "Omnium összesített",
+                "place": "3. hely",
+                "isTotal": true,
+                "totalColor": "text-amber-400"
+              }
             ]
           }
         ]
@@ -150,11 +186,26 @@
     "name": "Országúti gép",
     "image": "Pictures/IMG_2310.jpeg",
     "specs": [
-      { "label": "Modell", "value": "Bianchi XR3 CV" },
-      { "label": "Váz", "value": "Full Carbon" },
-      { "label": "Technológia", "value": "Countervail (CV)" },
-      { "label": "Kerék", "value": "700c" },
-      { "label": "Szín", "value": "Celeste" }
+      {
+        "label": "Modell",
+        "value": "Bianchi XR3 CV"
+      },
+      {
+        "label": "Váz",
+        "value": "Full Carbon"
+      },
+      {
+        "label": "Technológia",
+        "value": "Countervail (CV)"
+      },
+      {
+        "label": "Kerék",
+        "value": "700c"
+      },
+      {
+        "label": "Szín",
+        "value": "Celeste"
+      }
     ]
   },
   "gallery": {
@@ -164,8 +215,14 @@
     "madeWith": "Made with ❤️ and 🚴",
     "copyright": "2025 Nagy Botond. Minden jog fenntartva.",
     "socialLinks": [
-      { "platform": "instagram", "url": "#" },
-      { "platform": "strava", "url": "#" }
+      {
+        "platform": "instagram",
+        "url": "#"
+      },
+      {
+        "platform": "strava",
+        "url": "#"
+      }
     ]
   }
 }
