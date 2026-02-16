@@ -1,15 +1,14 @@
 #!/bin/bash
 # ============================================
-# GALÉRIA BUILDER - Nagy Botond Cycling Website
+# SITE BUILDER - Nagy Botond Cycling Website
 # ============================================
 # Használat: bash build.sh
 #
-# Ez a script beolvassa a Pictures/ mappa összes képét
-# és frissíti az index.html galéria szekciót.
-# Ha új képet teszel a Pictures/ mappába, futtasd újra!
+# Ez a script beolvassa a data/content.json tartalmát
+# és a Pictures/ mappa képeit, majd frissíti az index.html-t.
 # ============================================
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
-python3 build_gallery.py
+python3 build_site.py

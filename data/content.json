@@ -1,0 +1,171 @@
+{
+  "hero": {
+    "name": "NAGY BOTOND",
+    "subtitle": "🚴 Road & Track Cyclist | 11 éves | Hungary 🇭🇺",
+    "team": "KŐBÁNYA CYCLING TEAM",
+    "profileYear": "2025",
+    "heroImage": "Pictures/IMG_1952.jpeg"
+  },
+  "stats": [
+    {
+      "icon": "🏆",
+      "label": "Rajtszám",
+      "value": "#187",
+      "dataCount": "187",
+      "color": "blue"
+    },
+    {
+      "icon": "🚴",
+      "label": "Specializáció",
+      "value": "Road & Track",
+      "color": "white"
+    },
+    {
+      "icon": "📅",
+      "label": "Versenyez",
+      "value": "2024 óta",
+      "color": "white"
+    },
+    {
+      "icon": "⚡",
+      "label": "Kedvenc táv",
+      "value": "20 km hegy",
+      "color": "green"
+    },
+    {
+      "icon": "💪",
+      "label": "Erősség",
+      "value": "Hegymenet 🏔️",
+      "color": "white"
+    },
+    {
+      "icon": "🎯",
+      "label": "Álom",
+      "value": "🌈 & sárga trikó",
+      "color": "white"
+    }
+  ],
+  "achievements": {
+    "intro": "Boti 2025-ben még az <span class=\"text-neon-blue font-medium\">U11</span>-es korcsoportban versenyzett, de gyakran indult 1–2 korosztállyal feljebb, ahol a nagyobb távok és erősebb mezőnyök ellen is remekül helytállt.",
+    "categories": [
+      {
+        "name": "Országúti kerékpár",
+        "icon": "🚴",
+        "results": [
+          {
+            "ageGroup": "U11",
+            "title": "Diákolimpia Országúti Időfutam",
+            "description": "Egyéni versenyszám, ahol a versenyzők időre teljesítik a kijelölt távot.",
+            "medal": "🥉",
+            "place": "3. hely",
+            "placeColor": "text-amber-400"
+          },
+          {
+            "ageGroup": "U13 ⬆️",
+            "title": "Pilis Kupa Hegyi Időfutam",
+            "description": "Emelkedős pályán rendezett időfutam, ahol az erő és állóképesség dönt.",
+            "medal": "🥈",
+            "place": "2. hely",
+            "placeColor": "text-gray-300"
+          },
+          {
+            "ageGroup": "U13 ⬆️",
+            "title": "Mátra Kör",
+            "description": "Hegyes-dombos terepen zajló országúti verseny, több emelkedővel.",
+            "medal": "🥈",
+            "place": "2. hely",
+            "placeColor": "text-gray-300"
+          },
+          {
+            "ageGroup": "U13 ⬆️",
+            "title": "Brigetio Időfutam",
+            "description": "",
+            "medal": "🥉",
+            "place": "3. hely",
+            "placeColor": "text-amber-400"
+          }
+        ]
+      },
+      {
+        "name": "Pályakerékpár",
+        "icon": "🏟️",
+        "results": [
+          {
+            "ageGroup": "U11",
+            "title": "BringAréna Kupa",
+            "description": "",
+            "medal": "🥇",
+            "place": "1. hely 🔥",
+            "placeColor": "text-neon-blue",
+            "highlight": true
+          },
+          {
+            "ageGroup": "U15 mezőny · U13 értékelés ⬆️⬆️",
+            "title": "Szlovák Kupa – Budapest",
+            "description": "Lassú kör: 40–43 km/h · Sprintek: 47–50 km/h",
+            "subResults": [
+              { "medal": "🥈", "event": "Scratch", "place": "2. hely" },
+              { "medal": "🥈", "event": "Pontverseny", "place": "2. hely" },
+              { "medal": "🥈", "event": "Elimináció", "place": "2. hely" },
+              { "medal": "🥈", "event": "Omnium összesített", "place": "2. hely", "isTotal": true, "totalColor": "text-neon-blue" }
+            ]
+          },
+          {
+            "ageGroup": "U15 mezőny · U13 értékelés ⬆️⬆️",
+            "title": "Szlovák Kupa – Prága",
+            "description": "",
+            "subResults": [
+              { "medal": "🥉", "event": "Scratch", "place": "3. hely" },
+              { "medal": "🥉", "event": "Pontverseny", "place": "3. hely" },
+              { "medal": "🥈", "event": "Elimináció", "place": "2. hely" },
+              { "medal": "🥉", "event": "Omnium összesített", "place": "3. hely", "isTotal": true, "totalColor": "text-amber-400" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "motivation": {
+    "quote": "A fájdalom ideiglenes,<br>\n<span class=\"text-neon-blue neon-text\">a dicsőség örök.</span> 🔥",
+    "cards": [
+      {
+        "icon": "🏔️",
+        "text": "Minden emelkedő után egy lejtő jön. Csak tekerj tovább!"
+      },
+      {
+        "icon": "⚡",
+        "text": "A sebesség nem ajándék – a sebesség kemény munka eredménye."
+      },
+      {
+        "icon": "🎯",
+        "text": "Az álmok nem teljesülnek maguktól. Minden nap edzés, minden nap egy lépés közelebb."
+      }
+    ],
+    "photos": [
+      "Pictures/IMG_2040.jpeg",
+      "Pictures/IMG_2007.jpeg"
+    ]
+  },
+  "bike": {
+    "name": "Országúti gép",
+    "image": "Pictures/IMG_2310.jpeg",
+    "specs": [
+      { "label": "Modell", "value": "Bianchi XR3 CV" },
+      { "label": "Váz", "value": "Full Carbon" },
+      { "label": "Technológia", "value": "Countervail (CV)" },
+      { "label": "Kerék", "value": "700c" },
+      { "label": "Szín", "value": "Celeste" }
+    ]
+  },
+  "gallery": {
+    "images": []
+  },
+  "footer": {
+    "madeWith": "Made with ❤️ and 🚴",
+    "copyright": "2025 Nagy Botond. Minden jog fenntartva.",
+    "socialLinks": [
+      { "platform": "instagram", "url": "#" },
+      { "platform": "strava", "url": "#" }
+    ]
+  }
+}

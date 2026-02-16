@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NB Admin | Tartalom kezelés</title>
+    <link rel="icon" type="image/svg+xml" href="logos/nb-favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'body': ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-blue': '#00D4FF',
+                        'neon-green': '#39FF14',
+                        'dark-bg': '#0a0a1a',
+                        'dark-card': '#1a1a3e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: #0a0a1a; color: #e0e0f0; min-height: 100vh; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a1a; }
+        ::-webkit-scrollbar-thumb { background: #00D4FF40; border-radius: 3px; }
+
+        .glass-card {
+            background: rgba(26, 26, 62, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 16px;
+        }
+
+        .neon-input {
+            background: rgba(10, 10, 26, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            color: #e0e0f0;
+            padding: 10px 14px;
+            font-family: 'Outfit', sans-serif;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+        .neon-input:focus {
+            outline: none;
+            border-color: #00D4FF;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+        }
+
+        .neon-btn {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(57, 255, 20, 0.1));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            color: #00D4FF;
+            padding: 10px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .neon-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(57, 255, 20, 0.2));
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            border-color: #00D4FF;
+        }
+        .neon-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .neon-btn.danger {
+            border-color: rgba(255, 80, 80, 0.4);
+            color: #ff5050;
+        }
+        .neon-btn.danger:hover {
+            background: rgba(255, 80, 80, 0.15);
+            box-shadow: 0 0 20px rgba(255, 80, 80, 0.2);
+        }
+        .neon-btn.success {
+            border-color: rgba(57, 255, 20, 0.4);
+            color: #39FF14;
+        }
+        .neon-btn.success:hover {
+            background: rgba(57, 255, 20, 0.15);
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            background: transparent;
+        }
+        .tab-btn:hover { color: #ccc; background: rgba(255,255,255,0.05); }
+        .tab-btn.active {
+            color: #00D4FF;
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 10px 20px;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .drop-zone {
+            border: 2px dashed rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .drop-zone.dragover {
+            border-color: #00D4FF;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .img-thumb {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            aspect-ratio: 1;
+        }
+        .img-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .img-thumb .delete-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .img-thumb:hover .delete-overlay { opacity: 1; }
+
+        textarea.neon-input { min-height: 80px; resize: vertical; }
+
+        .fade-in { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        select.neon-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300D4FF' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+    </style>
+</head>
+<body>
+
+<!-- ====== LOGIN SCREEN ====== -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+    <div class="glass-card p-8 max-w-md w-full">
+        <div class="text-center mb-8">
+            <h1 class="font-orbitron text-2xl font-bold text-white mb-2">NB <span class="text-neon-blue">ADMIN</span></h1>
+            <p class="text-gray-400 text-sm">Tartalom kezelés · GitHub API</p>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs text-gray-400 mb-1 font-medium">GitHub Personal Access Token</label>
+                <input type="password" id="pat-input" class="neon-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                <p class="text-xs text-gray-500 mt-1">Szükséges jogok: repo (Contents: Read and write)</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Repo owner</label>
+                    <input type="text" id="owner-input" class="neon-input" value="NAttila72">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Repo name</label>
+                    <input type="text" id="repo-input" class="neon-input" value="nagybotond">
+                </div>
+            </div>
+            <button id="login-btn" class="neon-btn w-full mt-4" onclick="doLogin()">
+                BEJELENTKEZÉS ⚡
+            </button>
+            <p id="login-error" class="text-red-400 text-xs text-center hidden"></p>
+        </div>
+    </div>
+</div>
+
+<!-- ====== DASHBOARD ====== -->
+<div id="dashboard" class="hidden">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-dark-bg/90 backdrop-blur-lg border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <h1 class="font-orbitron text-lg font-bold text-white">NB <span class="text-neon-blue">ADMIN</span></h1>
+                <span class="text-xs text-gray-500 font-mono" id="repo-label"></span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a id="site-link" href="#" target="_blank" class="text-xs text-gray-400 hover:text-neon-blue transition-colors">
+                    🌐 Élő oldal
+                </a>
+                <button class="neon-btn text-xs" onclick="doLogout()">Kijelentkezés</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="max-w-6xl mx-auto px-4 mt-4">
+        <div class="flex flex-wrap gap-2 mb-6" id="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('stats')">📊 Stats</button>
+            <button class="tab-btn" onclick="switchTab('achievements')">🏅 Eredmények</button>
+            <button class="tab-btn" onclick="switchTab('gallery')">📸 Galéria</button>
+            <button class="tab-btn" onclick="switchTab('texts')">💬 Szövegek</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Beállítások</button>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="max-w-6xl mx-auto px-4 pb-24">
+
+        <!-- STATS TAB -->
+        <div id="tab-stats" class="tab-content fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-orbitron text-xl font-bold text-white">Rider Stats</h2>
+                <button class="neon-btn success" onclick="saveContent()">💾 MENTÉS</button>
+            </div>
+            <div id="stats-editor" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+
+        <!-- ACHIEVEMENTS TAB -->
+        <div id="tab-achievements" class="tab-content hidden fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-orbitron text-xl font-bold text-white">Eredmények</h2>
+                <div class="flex gap-2">
+                    <button class="neon-btn" onclick="addResult()">+ Új eredmény</button>
+                    <button class="neon-btn success" onclick="saveContent()">💾 MENTÉS</button>
+                </div>
+            </div>
+
+            <!-- Intro text -->
+            <div class="glass-card p-4 mb-6">
+                <label class="block text-xs text-gray-400 mb-1 font-medium">Bevezető szöveg (HTML engedélyezett)</label>
+                <textarea id="ach-intro" class="neon-input" rows="3"></textarea>
+            </div>
+
+            <div id="achievements-editor"></div>
+        </div>
+
+        <!-- GALLERY TAB -->
+        <div id="tab-gallery" class="tab-content hidden fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-orbitron text-xl font-bold text-white">Galéria</h2>
+                <span class="text-xs text-gray-500 font-mono" id="gallery-count"></span>
+            </div>
+
+            <!-- Upload zone -->
+            <div id="upload-zone" class="drop-zone mb-6">
+                <div class="text-gray-400 mb-2">📸 Húzd ide a képeket vagy kattints</div>
+                <div class="text-gray-500 text-xs">JPG, PNG, WebP · Max 10MB/kép</div>
+                <input type="file" id="file-input" multiple accept="image/jpeg,image/png,image/webp" class="hidden">
+            </div>
+
+            <!-- Upload progress -->
+            <div id="upload-progress" class="hidden mb-6">
+                <div class="text-sm text-neon-blue mb-2" id="upload-status">Feltöltés...</div>
+                <div class="h-1 bg-dark-card rounded-full overflow-hidden">
+                    <div id="upload-bar" class="h-full bg-gradient-to-r from-neon-blue to-neon-green rounded-full transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Image grid -->
+            <div id="gallery-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3"></div>
+        </div>
+
+        <!-- TEXTS TAB -->
+        <div id="tab-texts" class="tab-content hidden fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-orbitron text-xl font-bold text-white">Szövegek</h2>
+                <button class="neon-btn success" onclick="saveContent()">💾 MENTÉS</button>
+            </div>
+
+            <!-- Hero section -->
+            <div class="glass-card p-5 mb-4">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">🏠 HERO SZEKCIÓ</h3>
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Név</label>
+                        <input type="text" id="hero-name" class="neon-input">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Alcím</label>
+                        <input type="text" id="hero-subtitle" class="neon-input">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Csapat</label>
+                        <input type="text" id="hero-team" class="neon-input">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Profil év</label>
+                        <input type="text" id="hero-year" class="neon-input">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs text-gray-400 mb-1">Hero kép (fájlnév a Pictures/-ből)</label>
+                        <input type="text" id="hero-image" class="neon-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motivation section -->
+            <div class="glass-card p-5 mb-4">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">💬 MOTIVÁCIÓ</h3>
+                <div class="mb-3">
+                    <label class="block text-xs text-gray-400 mb-1">Fő idézet (HTML engedélyezett)</label>
+                    <textarea id="motivation-quote" class="neon-input" rows="3"></textarea>
+                </div>
+                <div id="motivation-cards-editor" class="space-y-3"></div>
+                <button class="neon-btn mt-3 text-xs" onclick="addMotivationCard()">+ Kártya hozzáadása</button>
+            </div>
+
+            <!-- Bike section -->
+            <div class="glass-card p-5 mb-4">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">🚴 KERÉKPÁR</h3>
+                <div class="grid gap-3 sm:grid-cols-2 mb-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Gép neve</label>
+                        <input type="text" id="bike-name" class="neon-input">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Kép (fájlnév)</label>
+                        <input type="text" id="bike-image" class="neon-input">
+                    </div>
+                </div>
+                <div id="bike-specs-editor" class="space-y-2"></div>
+                <button class="neon-btn mt-3 text-xs" onclick="addBikeSpec()">+ Spec hozzáadása</button>
+            </div>
+
+            <!-- Footer section -->
+            <div class="glass-card p-5">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">📋 FOOTER</h3>
+                <div class="grid gap-3 sm:grid-cols-2">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Made with szöveg</label>
+                        <input type="text" id="footer-madewith" class="neon-input">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Copyright szöveg</label>
+                        <input type="text" id="footer-copyright" class="neon-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div id="tab-settings" class="tab-content hidden fade-in">
+            <h2 class="font-orbitron text-xl font-bold text-white mb-6">Beállítások</h2>
+
+            <div class="glass-card p-5 mb-4">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">🔑 GitHub Token</h3>
+                <p class="text-xs text-gray-400 mb-3">A token a böngésző localStorage-jában van tárolva. Csak ezen az eszközön érhető el.</p>
+                <div class="flex gap-2">
+                    <input type="password" id="settings-pat" class="neon-input flex-1" readonly>
+                    <button class="neon-btn danger" onclick="clearPAT()">Token törlése</button>
+                </div>
+            </div>
+
+            <div class="glass-card p-5 mb-4">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">🌐 Oldal URL</h3>
+                <p class="text-sm text-gray-300" id="settings-url"></p>
+            </div>
+
+            <div class="glass-card p-5">
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">ℹ️ Hogyan működik?</h3>
+                <div class="text-sm text-gray-400 space-y-2">
+                    <p>1. Szerkeszted a tartalmat az admin felületen</p>
+                    <p>2. Mentéskor a változások commitolódnak a GitHub repóba</p>
+                    <p>3. GitHub Actions lefuttatja a build scriptet (~60-90mp)</p>
+                    <p>4. Az élő oldal automatikusan frissül</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-neon-green animate-pulse" id="status-dot"></span>
+            <span class="text-gray-400" id="status-text">Kész</span>
+        </div>
+        <div class="text-xs text-gray-500 font-mono" id="status-sha"></div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// STATE
+// ============================================
+let state = {
+    pat: '',
+    owner: 'NAttila72',
+    repo: 'nagybotond',
+    branch: 'main',
+    content: null,
+    contentSha: null,
+    currentTab: 'stats',
+    galleryFiles: []
+};
+
+// ============================================
+// GITHUB API
+// ============================================
+const API = 'https://api.github.com';
+
+async function ghFetch(path, options = {}) {
+    const url = path.startsWith('http') ? path : `${API}/repos/${state.owner}/${state.repo}${path}`;
+    const res = await fetch(url, {
+        ...options,
+        headers: {
+            'Authorization': `token ${state.pat}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    });
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `GitHub API error: ${res.status}`);
+    }
+    return res.json();
+}
+
+async function getFileContent(path) {
+    const data = await ghFetch(`/contents/${path}?ref=${state.branch}`);
+    return {
+        content: JSON.parse(atob(data.content)),
+        sha: data.sha
+    };
+}
+
+async function putFileContent(path, content, message, sha) {
+    return ghFetch(`/contents/${path}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            message,
+            content: btoa(unescape(encodeURIComponent(typeof content === 'string' ? content : JSON.stringify(content, null, 2)))),
+            sha,
+            branch: state.branch
+        })
+    });
+}
+
+async function deleteFile(path, sha, message) {
+    return ghFetch(`/contents/${path}`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+            message,
+            sha,
+            branch: state.branch
+        })
+    });
+}
+
+async function getDirectoryContents(path) {
+    return ghFetch(`/contents/${path}?ref=${state.branch}`);
+}
+
+// ============================================
+// LOGIN / LOGOUT
+// ============================================
+function loadSavedCredentials() {
+    const saved = localStorage.getItem('nb-admin');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            document.getElementById('pat-input').value = data.pat || '';
+            document.getElementById('owner-input').value = data.owner || 'NAttila72';
+            document.getElementById('repo-input').value = data.repo || 'nagybotond';
+        } catch(e) {}
+    }
+}
+
+async function doLogin() {
+    const pat = document.getElementById('pat-input').value.trim();
+    const owner = document.getElementById('owner-input').value.trim();
+    const repo = document.getElementById('repo-input').value.trim();
+    const errEl = document.getElementById('login-error');
+
+    if (!pat || !owner || !repo) {
+        errEl.textContent = 'Minden mező kitöltése kötelező!';
+        errEl.classList.remove('hidden');
+        return;
+    }
+
+    state.pat = pat;
+    state.owner = owner;
+    state.repo = repo;
+
+    const btn = document.getElementById('login-btn');
+    btn.textContent = 'Csatlakozás...';
+    btn.disabled = true;
+    errEl.classList.add('hidden');
+
+    try {
+        // Test connection
+        await ghFetch(`/contents/data/content.json?ref=${state.branch}`);
+
+        // Save credentials
+        localStorage.setItem('nb-admin', JSON.stringify({ pat, owner, repo }));
+
+        // Show dashboard
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        document.getElementById('repo-label').textContent = `${owner}/${repo}`;
+        document.getElementById('site-link').href = `https://${owner}.github.io/${repo}/`;
+        document.getElementById('settings-pat').value = pat.substring(0, 8) + '...' + pat.substring(pat.length - 4);
+        document.getElementById('settings-url').textContent = `https://${owner}.github.io/${repo}/`;
+
+        // Load content
+        await loadContent();
+        await loadGallery();
+    } catch(e) {
+        errEl.textContent = 'Hiba: ' + e.message;
+        errEl.classList.remove('hidden');
+    } finally {
+        btn.textContent = 'BEJELENTKEZÉS ⚡';
+        btn.disabled = false;
+    }
+}
+
+function doLogout() {
+    localStorage.removeItem('nb-admin');
+    location.reload();
+}
+
+function clearPAT() {
+    localStorage.removeItem('nb-admin');
+    alert('Token törölve! Az oldal újratölt.');
+    location.reload();
+}
+
+// ============================================
+// CONTENT LOADING
+// ============================================
+async function loadContent() {
+    setStatus('Tartalom betöltése...', 'loading');
+    try {
+        const { content, sha } = await getFileContent('data/content.json');
+        state.content = content;
+        state.contentSha = sha;
+        renderAllEditors();
+        setStatus('Tartalom betöltve', 'ok');
+    } catch(e) {
+        setStatus('Hiba: ' + e.message, 'error');
+    }
+}
+
+async function loadGallery() {
+    try {
+        const files = await getDirectoryContents('Pictures');
+        state.galleryFiles = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
+        renderGallery();
+    } catch(e) {
+        console.warn('Gallery load error:', e);
+    }
+}
+
+// ============================================
+// SAVE
+// ============================================
+async function saveContent() {
+    if (!state.content) return;
+
+    collectFormData();
+    setStatus('Mentés...', 'loading');
+
+    try {
+        const result = await putFileContent(
+            'data/content.json',
+            state.content,
+            `Update content via NB Admin`,
+            state.contentSha
+        );
+        state.contentSha = result.content.sha;
+        setStatus('Mentve!', 'ok');
+        document.getElementById('status-sha').textContent = result.commit.sha.substring(0, 7);
+    } catch(e) {
+        setStatus('Mentési hiba: ' + e.message, 'error');
+    }
+}
+
+function collectFormData() {
+    const c = state.content;
+
+    // Hero
+    c.hero.name = document.getElementById('hero-name').value;
+    c.hero.subtitle = document.getElementById('hero-subtitle').value;
+    c.hero.team = document.getElementById('hero-team').value;
+    c.hero.profileYear = document.getElementById('hero-year').value;
+    c.hero.heroImage = document.getElementById('hero-image').value;
+
+    // Stats
+    document.querySelectorAll('[data-stat-index]').forEach(card => {
+        const i = parseInt(card.dataset.statIndex);
+        c.stats[i].icon = card.querySelector('.stat-icon').value;
+        c.stats[i].label = card.querySelector('.stat-label').value;
+        c.stats[i].value = card.querySelector('.stat-value').value;
+        c.stats[i].color = card.querySelector('.stat-color').value;
+    });
+
+    // Achievements intro
+    c.achievements.intro = document.getElementById('ach-intro').value;
+
+    // Achievements results - collected from DOM
+    c.achievements.categories.forEach((cat, ci) => {
+        const catEl = document.querySelector(`[data-category-index="${ci}"]`);
+        if (!catEl) return;
+        catEl.querySelectorAll('[data-result-index]').forEach(resEl => {
+            const ri = parseInt(resEl.dataset.resultIndex);
+            const r = cat.results[ri];
+            if (!r) return;
+            r.ageGroup = resEl.querySelector('.res-age').value;
+            r.title = resEl.querySelector('.res-title').value;
+            r.description = resEl.querySelector('.res-desc')?.value || '';
+            if (!r.subResults) {
+                r.medal = resEl.querySelector('.res-medal').value;
+                r.place = resEl.querySelector('.res-place').value;
+            }
+        });
+    });
+
+    // Motivation
+    c.motivation.quote = document.getElementById('motivation-quote').value;
+    c.motivation.cards = [];
+    document.querySelectorAll('[data-motcard-index]').forEach(cardEl => {
+        c.motivation.cards.push({
+            icon: cardEl.querySelector('.motcard-icon').value,
+            text: cardEl.querySelector('.motcard-text').value
+        });
+    });
+
+    // Bike
+    c.bike.name = document.getElementById('bike-name').value;
+    c.bike.image = document.getElementById('bike-image').value;
+    c.bike.specs = [];
+    document.querySelectorAll('[data-spec-index]').forEach(specEl => {
+        c.bike.specs.push({
+            label: specEl.querySelector('.spec-label').value,
+            value: specEl.querySelector('.spec-value').value
+        });
+    });
+
+    // Footer
+    c.footer.madeWith = document.getElementById('footer-madewith').value;
+    c.footer.copyright = document.getElementById('footer-copyright').value;
+}
+
+// ============================================
+// RENDERERS
+// ============================================
+function renderAllEditors() {
+    const c = state.content;
+    if (!c) return;
+
+    renderStatsEditor(c.stats);
+    renderAchievementsEditor(c.achievements);
+    renderTextsEditor(c);
+}
+
+function renderStatsEditor(stats) {
+    const container = document.getElementById('stats-editor');
+    container.innerHTML = stats.map((s, i) => `
+        <div class="glass-card p-4" data-stat-index="${i}">
+            <div class="flex items-center gap-2 mb-3">
+                <input type="text" class="neon-input stat-icon" value="${s.icon}" style="width: 50px; text-align: center; font-size: 20px;">
+                <input type="text" class="neon-input stat-label flex-1" value="${escHtml(s.label)}">
+            </div>
+            <input type="text" class="neon-input stat-value mb-2" value="${escHtml(s.value)}">
+            <select class="neon-input stat-color">
+                <option value="white" ${s.color === 'white' ? 'selected' : ''}>⬜ Fehér</option>
+                <option value="blue" ${s.color === 'blue' ? 'selected' : ''}>🔵 Kék (neon)</option>
+                <option value="green" ${s.color === 'green' ? 'selected' : ''}>🟢 Zöld (neon)</option>
+            </select>
+        </div>
+    `).join('');
+}
+
+function renderAchievementsEditor(ach) {
+    document.getElementById('ach-intro').value = ach.intro;
+    const container = document.getElementById('achievements-editor');
+
+    let html = '';
+    ach.categories.forEach((cat, ci) => {
+        html += `<div class="glass-card p-4 mb-4" data-category-index="${ci}">
+            <h3 class="font-orbitron text-sm font-bold text-white mb-4">${cat.icon} ${escHtml(cat.name)}</h3>`;
+
+        cat.results.forEach((r, ri) => {
+            html += `<div class="border border-white/5 rounded-lg p-3 mb-3" data-result-index="${ri}">
+                <div class="grid gap-2 sm:grid-cols-2 mb-2">
+                    <input type="text" class="neon-input res-age" value="${escHtml(r.ageGroup)}" placeholder="Korcsoport">
+                    <input type="text" class="neon-input res-title" value="${escHtml(r.title)}" placeholder="Verseny neve">
+                </div>
+                <textarea class="neon-input res-desc mb-2" rows="2" placeholder="Leírás (opcionális)">${escHtml(r.description || '')}</textarea>`;
+
+            if (r.subResults) {
+                html += `<div class="text-xs text-gray-500 mb-1">Al-eredmények (kézzel szerkeszthető a JSON-ban)</div>
+                    <div class="text-xs text-gray-400 space-y-1">`;
+                r.subResults.forEach(sr => {
+                    html += `<div>${sr.medal} ${escHtml(sr.event)} – ${escHtml(sr.place)}</div>`;
+                });
+                html += '</div>';
+            } else {
+                html += `<div class="grid grid-cols-3 gap-2">
+                    <input type="text" class="neon-input res-medal" value="${escHtml(r.medal || '')}" placeholder="🥇">
+                    <input type="text" class="neon-input res-place col-span-2" value="${escHtml(r.place || '')}" placeholder="1. hely">
+                </div>`;
+            }
+
+            html += `<button class="text-red-400 text-xs mt-2 hover:text-red-300" onclick="removeResult(${ci}, ${ri})">🗑 Törlés</button>
+            </div>`;
+        });
+
+        html += `<button class="neon-btn text-xs" onclick="addResultToCategory(${ci})">+ Eredmény hozzáadása</button>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+function renderTextsEditor(c) {
+    // Hero
+    document.getElementById('hero-name').value = c.hero.name;
+    document.getElementById('hero-subtitle').value = c.hero.subtitle;
+    document.getElementById('hero-team').value = c.hero.team;
+    document.getElementById('hero-year').value = c.hero.profileYear || '2025';
+    document.getElementById('hero-image').value = c.hero.heroImage;
+
+    // Motivation
+    document.getElementById('motivation-quote').value = c.motivation.quote;
+    renderMotivationCards(c.motivation.cards);
+
+    // Bike
+    document.getElementById('bike-name').value = c.bike.name;
+    document.getElementById('bike-image').value = c.bike.image;
+    renderBikeSpecs(c.bike.specs);
+
+    // Footer
+    document.getElementById('footer-madewith').value = c.footer.madeWith;
+    document.getElementById('footer-copyright').value = c.footer.copyright;
+}
+
+function renderMotivationCards(cards) {
+    const container = document.getElementById('motivation-cards-editor');
+    container.innerHTML = cards.map((card, i) => `
+        <div class="flex gap-2 items-start" data-motcard-index="${i}">
+            <input type="text" class="neon-input motcard-icon" value="${card.icon}" style="width: 50px; text-align: center;">
+            <input type="text" class="neon-input motcard-text flex-1" value="${escHtml(card.text)}">
+            <button class="text-red-400 text-xs hover:text-red-300 mt-2" onclick="removeMotivationCard(${i})">🗑</button>
+        </div>
+    `).join('');
+}
+
+function renderBikeSpecs(specs) {
+    const container = document.getElementById('bike-specs-editor');
+    container.innerHTML = specs.map((s, i) => `
+        <div class="flex gap-2" data-spec-index="${i}">
+            <input type="text" class="neon-input spec-label" value="${escHtml(s.label)}" style="width: 120px;" placeholder="Label">
+            <input type="text" class="neon-input spec-value flex-1" value="${escHtml(s.value)}" placeholder="Érték">
+            <button class="text-red-400 text-xs hover:text-red-300" onclick="removeBikeSpec(${i})">🗑</button>
+        </div>
+    `).join('');
+}
+
+function renderGallery() {
+    const grid = document.getElementById('gallery-grid');
+    const countEl = document.getElementById('gallery-count');
+    countEl.textContent = `${state.galleryFiles.length} kép`;
+
+    grid.innerHTML = state.galleryFiles.map(f => `
+        <div class="img-thumb">
+            <img src="https://raw.githubusercontent.com/${state.owner}/${state.repo}/${state.branch}/Pictures/${encodeURIComponent(f.name)}" alt="${escHtml(f.name)}" loading="lazy">
+            <div class="delete-overlay">
+                <button class="neon-btn danger text-xs" onclick="deleteImage('${escHtml(f.name)}', '${f.sha}')">🗑</button>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 bg-black/70 px-1 py-0.5 text-[10px] text-gray-400 truncate">${escHtml(f.name)}</div>
+        </div>
+    `).join('');
+}
+
+// ============================================
+// ACTIONS
+// ============================================
+function addResultToCategory(catIndex) {
+    collectFormData();
+    state.content.achievements.categories[catIndex].results.push({
+        ageGroup: 'U11',
+        title: 'Új verseny',
+        description: '',
+        medal: '🥇',
+        place: '1. hely',
+        placeColor: 'text-neon-blue'
+    });
+    renderAchievementsEditor(state.content.achievements);
+}
+
+function removeResult(catIndex, resIndex) {
+    if (!confirm('Biztosan törölni akarod ezt az eredményt?')) return;
+    collectFormData();
+    state.content.achievements.categories[catIndex].results.splice(resIndex, 1);
+    renderAchievementsEditor(state.content.achievements);
+}
+
+function addResult() {
+    // Add to first category by default
+    addResultToCategory(0);
+}
+
+function addMotivationCard() {
+    collectFormData();
+    state.content.motivation.cards.push({ icon: '✨', text: 'Új motivációs szöveg' });
+    renderMotivationCards(state.content.motivation.cards);
+}
+
+function removeMotivationCard(index) {
+    collectFormData();
+    state.content.motivation.cards.splice(index, 1);
+    renderMotivationCards(state.content.motivation.cards);
+}
+
+function addBikeSpec() {
+    collectFormData();
+    state.content.bike.specs.push({ label: 'Új spec', value: '' });
+    renderBikeSpecs(state.content.bike.specs);
+}
+
+function removeBikeSpec(index) {
+    collectFormData();
+    state.content.bike.specs.splice(index, 1);
+    renderBikeSpecs(state.content.bike.specs);
+}
+
+// ============================================
+// IMAGE UPLOAD / DELETE
+// ============================================
+async function uploadImage(file) {
+    if (file.size > 10 * 1024 * 1024) {
+        alert('A fájl túl nagy (max 10MB)!');
+        return;
+    }
+
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+        reader.onload = async () => {
+            try {
+                const base64 = reader.result.split(',')[1];
+                const result = await ghFetch(`/contents/Pictures/${file.name}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        message: `Upload image: ${file.name}`,
+                        content: base64,
+                        branch: state.branch
+                    })
+                });
+                resolve(result);
+            } catch(e) {
+                reject(e);
+            }
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+async function handleUpload(files) {
+    const progressEl = document.getElementById('upload-progress');
+    const statusEl = document.getElementById('upload-status');
+    const barEl = document.getElementById('upload-bar');
+
+    progressEl.classList.remove('hidden');
+
+    for (let i = 0; i < files.length; i++) {
+        statusEl.textContent = `Feltöltés: ${files[i].name} (${i + 1}/${files.length})`;
+        barEl.style.width = ((i + 1) / files.length * 100) + '%';
+
+        try {
+            await uploadImage(files[i]);
+        } catch(e) {
+            setStatus(`Hiba: ${files[i].name} - ${e.message}`, 'error');
+        }
+    }
+
+    progressEl.classList.add('hidden');
+    setStatus(`${files.length} kép feltöltve!`, 'ok');
+    await loadGallery();
+}
+
+async function deleteImage(name, sha) {
+    if (!confirm(`Biztosan törlöd: ${name}?`)) return;
+
+    setStatus(`Törlés: ${name}...`, 'loading');
+    try {
+        await deleteFile(`Pictures/${name}`, sha, `Delete image: ${name}`);
+        setStatus('Kép törölve!', 'ok');
+        await loadGallery();
+    } catch(e) {
+        setStatus('Törlési hiba: ' + e.message, 'error');
+    }
+}
+
+// ============================================
+// TABS
+// ============================================
+function switchTab(tab) {
+    state.currentTab = tab;
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+    const tabEl = document.getElementById(`tab-${tab}`);
+    if (tabEl) {
+        tabEl.classList.remove('hidden');
+        tabEl.classList.add('fade-in');
+    }
+
+    // Find the matching tab button
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.onclick.toString().includes(`'${tab}'`)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+// ============================================
+// UTILS
+// ============================================
+function escHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function setStatus(text, type) {
+    const dot = document.getElementById('status-dot');
+    const textEl = document.getElementById('status-text');
+    textEl.textContent = text;
+
+    dot.className = 'w-2 h-2 rounded-full';
+    if (type === 'ok') {
+        dot.classList.add('bg-neon-green', 'animate-pulse');
+    } else if (type === 'error') {
+        dot.classList.add('bg-red-500');
+    } else {
+        dot.classList.add('bg-yellow-400', 'animate-pulse');
+    }
+}
+
+// ============================================
+// INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedCredentials();
+
+    // File upload handlers
+    const uploadZone = document.getElementById('upload-zone');
+    const fileInput = document.getElementById('file-input');
+
+    if (uploadZone && fileInput) {
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleUpload(Array.from(e.dataTransfer.files));
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleUpload(Array.from(fileInput.files));
+                fileInput.value = '';
+            }
+        });
+    }
+
+    // Auto-login if credentials saved
+    const saved = localStorage.getItem('nb-admin');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.pat) {
+                document.getElementById('pat-input').value = data.pat;
+                doLogin();
+            }
+        } catch(e) {}
+    }
+});
+</script>
+
+</body>
+</html>
