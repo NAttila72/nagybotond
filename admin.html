@@ -453,7 +453,7 @@ async function ghFetch(path, options = {}) {
 async function getFileContent(path) {
     const data = await ghFetch(`/contents/${path}?ref=${state.branch}`);
     return {
-        content: JSON.parse(atob(data.content)),
+        content: JSON.parse(decodeURIComponent(escape(atob(data.content)))),
         sha: data.sha
     };
 }
