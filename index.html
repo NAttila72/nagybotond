@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagy Botond | Rider Profile</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron (címek) + Inter (szöveg) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind konfiguráció -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'orbitron': ['Orbitron', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                        'body': ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        'neon-blue': '#00D4FF',
+                        'neon-green': '#39FF14',
+                        'dark-bg': '#0a0a1a',
+                        'dark-card': '#1a1a3e',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================
+           ALAP STÍLUSOK
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0f0;
+            overflow-x: hidden;
+        }
+
+        /* Egyedi scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00D4FF40;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00D4FF80;
+        }
+
+        /* ============================================
+           NEON GLOW EFFEKTEK
+           ============================================ */
+        .neon-text {
+            text-shadow:
+                0 0 7px #00D4FF,
+                0 0 20px #00D4FF,
+                0 0 42px #00D4FF,
+                0 0 82px #00D4FF40;
+        }
+
+        .neon-text-green {
+            text-shadow:
+                0 0 7px #39FF14,
+                0 0 20px #39FF14,
+                0 0 42px #39FF1480;
+        }
+
+        .neon-glow-pulse {
+            animation: neonPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            from {
+                text-shadow:
+                    0 0 5px #00D4FF,
+                    0 0 15px #00D4FF,
+                    0 0 30px #00D4FF;
+            }
+            to {
+                text-shadow:
+                    0 0 10px #00D4FF,
+                    0 0 30px #00D4FF,
+                    0 0 60px #00D4FF,
+                    0 0 100px #00D4FF40;
+            }
+        }
+
+        /* ============================================
+           GLASSMORPHISM KÁRTYÁK
+           ============================================ */
+        .glass-card {
+            background: rgba(26, 26, 62, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(0, 212, 255, 0.4);
+            box-shadow:
+                0 8px 32px rgba(0, 212, 255, 0.15),
+                0 0 0 1px rgba(0, 212, 255, 0.1);
+        }
+
+        /* ============================================
+           HERO SZEKCIÓ - HÁTTÉR ANIMÁCIÓ
+           ============================================ */
+        .hero-bg {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0a0a1a 70%);
+        }
+
+        /* Mozgó diagonális csíkok - sebességérzet */
+        .speed-lines {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            opacity: 0.08;
+        }
+
+        .speed-lines::before,
+        .speed-lines::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 40px,
+                #00D4FF 40px,
+                #00D4FF 41px
+            );
+            animation: speedMove 8s linear infinite;
+        }
+
+        .speed-lines::after {
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 80px,
+                #39FF14 80px,
+                #39FF14 81px
+            );
+            animation: speedMove 12s linear infinite reverse;
+            opacity: 0.6;
+        }
+
+        @keyframes speedMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(56px, 56px); }
+        }
+
+        /* Kerékpár silhouette SVG háttér */
+        .bike-silhouette {
+            position: absolute;
+            bottom: -5%;
+            right: -5%;
+            width: 60%;
+            max-width: 700px;
+            opacity: 0.04;
+            transform: rotate(-5deg);
+        }
+
+        /* Részecske háttér */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00D4FF;
+            border-radius: 50%;
+            animation: particleFloat linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10vh) scale(1);
+            }
+        }
+
+        /* Bouncing nyíl */
+        .bounce-arrow {
+            animation: bounceArrow 2s ease-in-out infinite;
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(12px); }
+        }
+
+        /* ============================================
+           TYPEWRITER EFFEKT
+           ============================================ */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #00D4FF;
+            animation: typewriterBlink 0.7s step-end infinite;
+            width: 0;
+            display: inline-block;
+        }
+
+        .typewriter.active {
+            animation: typewriterReveal 2.5s steps(44, end) forwards,
+                       typewriterBlink 0.7s step-end infinite;
+        }
+
+        @keyframes typewriterReveal {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes typewriterBlink {
+            50% { border-color: transparent; }
+        }
+
+        /* ============================================
+           SCROLL ANIMÁCIÓ
+           ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ============================================
+           TIMELINE - EREDMÉNYEK
+           ============================================ */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #00D4FF40, #00D4FF, #00D4FF40, transparent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background: #00D4FF;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 12px #00D4FF, 0 0 24px #00D4FF40;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { box-shadow: 0 0 8px #00D4FF, 0 0 16px #00D4FF40; }
+            50% { box-shadow: 0 0 16px #00D4FF, 0 0 32px #00D4FF80; }
+        }
+
+        /* Mobil timeline */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+
+        /* ============================================
+           FORGÓ FOGASKERÉK
+           ============================================ */
+        .gear-rotate {
+            animation: gearSpin 30s linear infinite;
+        }
+
+        @keyframes gearSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           FORGÓ KERÉK ANIMÁCIÓ (Bike Setup)
+           ============================================ */
+        .wheel-spin {
+            animation: wheelSpin 3s linear infinite;
+        }
+
+        @keyframes wheelSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .wheel-spin-slow {
+            animation: wheelSpin 6s linear infinite;
+        }
+
+        /* ============================================
+           NEON BORDER GLOW
+           ============================================ */
+        .neon-border {
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .neon-border:hover {
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow:
+                0 0 15px rgba(0, 212, 255, 0.3),
+                inset 0 0 15px rgba(0, 212, 255, 0.05);
+        }
+
+        /* ============================================
+           SPEED GAME STÍLUSOK
+           ============================================ */
+        .game-btn {
+            position: relative;
+            background: linear-gradient(135deg, #00D4FF20, #39FF1420);
+            border: 2px solid #00D4FF;
+            color: #00D4FF;
+            padding: 20px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            outline: none;
+        }
+
+        .game-btn:hover {
+            background: linear-gradient(135deg, #00D4FF30, #39FF1430);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        .game-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #00D4FF50, #39FF1450);
+        }
+
+        .game-btn.active {
+            animation: gameBtnPulse 0.3s ease infinite;
+        }
+
+        @keyframes gameBtnPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(57, 255, 20, 0.4); }
+        }
+
+        /* ============================================
+           KONFETTI CANVAS
+           ============================================ */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ============================================
+           KÉPEK STÍLUSOK
+           ============================================ */
+        .hero-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 10, 26, 0.6), transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Galéria stílus */
+        .gallery-img {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .gallery-img:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 4px 24px rgba(0, 212, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .gallery-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-img:hover img {
+            transform: scale(1.08);
+        }
+
+        /* ============================================
+           LIGHTBOX - KÉPNAGYÍTÓ
+           ============================================ */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(5, 5, 15, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            cursor: pointer;
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .lightbox-content img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.15), 0 25px 50px rgba(0, 0, 0, 0.5);
+            cursor: default;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -48px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            background: rgba(26, 26, 62, 0.8);
+            color: #00D4FF;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00D4FF;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            background: rgba(26, 26, 62, 0.8);
+            color: #00D4FF;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00D4FF;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .lightbox-prev {
+            left: -64px;
+        }
+
+        .lightbox-next {
+            right: -64px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: rgba(0, 212, 255, 0.6);
+            letter-spacing: 0.1em;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-prev {
+                left: 8px;
+                top: auto;
+                bottom: -56px;
+                transform: none;
+            }
+            .lightbox-next {
+                right: 8px;
+                top: auto;
+                bottom: -56px;
+                transform: none;
+            }
+            .lightbox-close {
+                top: -52px;
+                right: 4px;
+            }
+            .lightbox-counter {
+                bottom: -36px;
+            }
+            .lightbox-content img {
+                max-width: 95vw;
+                max-height: 75vh;
+            }
+        }
+
+        /* ============================================
+           SZEKCIÓ ELVÁLASZTÓ - DIAGONAL
+           ============================================ */
+        .section-divider {
+            position: relative;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5%;
+            width: 110%;
+            height: 100%;
+            background: linear-gradient(to right, #00D4FF10, #39FF1410, #00D4FF10);
+            transform: skewY(-2deg);
+        }
+
+        /* ============================================
+           HERO FADE IN ANIMÁCIÓ
+           ============================================ */
+        .hero-content {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeIn 1s ease-out 0.3s forwards;
+        }
+
+        .hero-content-delay {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroFadeIn 1s ease-out 0.8s forwards;
+        }
+
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           SCAN LINE EFFEKT (Retro CRT)
+           ============================================ */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ============================================
+           STATS COUNT ANIMÁCIÓ
+           ============================================ */
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ============================================
+           FOTÓ GALÉRIA - MASONRY-SZERŰ
+           ============================================ */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto;
+            gap: 12px;
+        }
+
+        .photo-grid .gallery-img:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+            height: 400px;
+        }
+
+        .photo-grid .gallery-img:nth-child(2) {
+            height: 194px;
+        }
+
+        .photo-grid .gallery-img:nth-child(3) {
+            height: 194px;
+        }
+
+        .photo-grid .gallery-img:nth-child(4) {
+            height: 250px;
+        }
+
+        .photo-grid .gallery-img:nth-child(5) {
+            height: 250px;
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .photo-grid .gallery-img:nth-child(1) {
+                grid-column: span 2;
+                height: 250px;
+            }
+            .photo-grid .gallery-img:nth-child(5) {
+                grid-column: span 2;
+                height: 200px;
+            }
+            .photo-grid .gallery-img:nth-child(2),
+            .photo-grid .gallery-img:nth-child(3),
+            .photo-grid .gallery-img:nth-child(4) {
+                height: 180px;
+            }
+        }
+
+        /* ============================================
+           PROGRESS BAR - GAME TIMER
+           ============================================ */
+        .timer-bar {
+            height: 4px;
+            background: #1a1a3e;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .timer-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00D4FF, #39FF14);
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        /* ============================================
+           DIAGONAL CLIP SZEKCIÓ
+           ============================================ */
+        .diagonal-top {
+            clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
+            margin-top: -40px;
+            padding-top: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .diagonal-top {
+                clip-path: polygon(0 20px, 100% 0, 100% 100%, 0 100%);
+                margin-top: -20px;
+                padding-top: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Konfetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- ============================================
+         LIGHTBOX OVERLAY
+         ============================================ -->
+    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Képnagyító">
+        <div class="lightbox-content" id="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Bezárás">✕</button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Előző kép">‹</button>
+            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Következő kép">›</button>
+            <img id="lightbox-img" src="" alt="Nagyított kép">
+            <div class="lightbox-counter" id="lightbox-counter"></div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         NAVIGÁCIÓ (Sticky)
+         ============================================ -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <a href="#hero" class="font-orbitron text-sm tracking-widest text-neon-blue hover:text-white transition-colors">
+                NB<span class="text-neon-green">.</span>
+            </a>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#stats" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Stats</a>
+                <a href="#achievements" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Eredmények</a>
+                <a href="#gallery" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Galéria</a>
+                <a href="#bikes" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Felszerelés</a>
+                <a href="#game" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Game</a>
+            </div>
+            <!-- Mobil menü gomb -->
+            <button id="mobile-menu-btn" class="md:hidden text-neon-blue p-2" aria-label="Menü megnyitása">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M3 12h18M3 18h18"/>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobil menü -->
+        <div id="mobile-menu" class="md:hidden hidden bg-dark-bg/95 backdrop-blur-lg border-t border-neon-blue/10">
+            <div class="px-4 py-4 flex flex-col gap-4">
+                <a href="#stats" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Stats</a>
+                <a href="#achievements" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Eredmények</a>
+                <a href="#gallery" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Galéria</a>
+                <a href="#bikes" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Felszerelés</a>
+                <a href="#game" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Game</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         1. HERO SZEKCIÓ
+         ============================================ -->
+    <section id="hero" class="hero-bg flex items-center justify-center relative">
+        <!-- Háttér effektek -->
+        <div class="speed-lines"></div>
+        <div class="particles" id="particles"></div>
+        <div class="scanlines"></div>
+
+        <!-- Kerékpár silhouette SVG a háttérben -->
+        <svg class="bike-silhouette" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Hátsó kerék -->
+            <circle cx="200" cy="350" r="130" stroke="#00D4FF" stroke-width="4"/>
+            <circle cx="200" cy="350" r="110" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <!-- Küllők -->
+            <line x1="200" y1="220" x2="200" y2="480" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <line x1="70" y1="350" x2="330" y2="350" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <line x1="108" y1="258" x2="292" y2="442" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <line x1="292" y1="258" x2="108" y2="442" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <!-- Első kerék -->
+            <circle cx="600" cy="350" r="130" stroke="#00D4FF" stroke-width="4"/>
+            <circle cx="600" cy="350" r="110" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <!-- Küllők -->
+            <line x1="600" y1="220" x2="600" y2="480" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <line x1="470" y1="350" x2="730" y2="350" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <line x1="508" y1="258" x2="692" y2="442" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <line x1="692" y1="258" x2="508" y2="442" stroke="#00D4FF" stroke-width="1" opacity="0.3"/>
+            <!-- Váz -->
+            <path d="M200 350 L380 180 L600 350" stroke="#00D4FF" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M200 350 L380 350 L380 180" stroke="#00D4FF" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M380 350 L600 350" stroke="#00D4FF" stroke-width="3"/>
+            <!-- Nyereg -->
+            <path d="M340 170 L420 170" stroke="#00D4FF" stroke-width="6" stroke-linecap="round"/>
+            <!-- Kormány -->
+            <path d="M590 310 Q620 280 620 320" stroke="#00D4FF" stroke-width="4" stroke-linecap="round" fill="none"/>
+        </svg>
+
+        <!-- Tartalom -->
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto" id="hero-content">
+            <!-- Kis label felül -->
+            <div class="hero-content mb-6">
+                <span class="inline-block font-mono text-xs tracking-[0.3em] text-neon-green/80 uppercase border border-neon-green/20 px-4 py-1.5 rounded-full">
+                    Rider Profile 2025
+                </span>
+            </div>
+
+            <!-- Fő név -->
+            <h1 class="hero-content font-orbitron text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none mb-4 neon-text neon-glow-pulse text-white">
+                <!-- PLACEHOLDER: Versenyző neve -->
+                NAGY BOTOND
+            </h1>
+
+            <!-- Alcím - typewriter effekt -->
+            <div class="hero-content-delay mb-8 h-8 flex items-center justify-center">
+                <span id="typewriter-text" class="typewriter font-mono text-sm sm:text-base md:text-lg text-gray-300 tracking-wider">
+                    <!-- PLACEHOLDER: Bemutatkozó szöveg -->
+                    🚴 Road & Track Cyclist | 11 éves | Hungary 🇭🇺
+                </span>
+            </div>
+
+            <!-- Csapat badge -->
+            <div class="hero-content-delay">
+                <span class="inline-flex items-center gap-2 bg-neon-blue/10 border border-neon-blue/30 px-5 py-2 rounded-full text-neon-blue font-mono text-xs tracking-wider">
+                    <span class="w-2 h-2 bg-neon-green rounded-full animate-pulse"></span>
+                    <!-- PLACEHOLDER: Csapat neve -->
+                    KŐBÁNYA CYCLING TEAM
+                </span>
+            </div>
+
+            <!-- Fő fotó -->
+            <div class="hero-content-delay mt-10 mx-auto max-w-md">
+                <div class="hero-image aspect-[3/4] max-h-[420px] mx-auto shadow-2xl shadow-neon-blue/10">
+                    <img src="Pictures/IMG_1952.jpeg" alt="Nagy Botond verseny közben" loading="eager">
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouncing scroll nyíl -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 bounce-arrow z-10">
+            <a href="#stats" aria-label="Tovább görgetés">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2" stroke-linecap="round">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         2. STATS DASHBOARD
+         ============================================ -->
+    <section id="stats" class="relative py-20 sm:py-28 bg-gradient-to-b from-dark-bg via-dark-card/30 to-dark-bg">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Szekció cím -->
+            <div class="text-center mb-14 reveal">
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Statisztikák</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
+                    RIDER <span class="text-neon-blue">STATS</span>
+                </h2>
+            </div>
+
+            <!-- Stats kártyák grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Kedvenc szám -->
+                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: 0.1s">
+                    <div class="text-2xl mb-2">🏆</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">Rajtszám</div>
+                    <!-- PLACEHOLDER: Versenyző száma -->
+                    <div class="stat-value text-4xl sm:text-5xl font-bold text-neon-blue neon-text" data-count="187">#187</div>
+                </div>
+
+                <!-- Specializáció -->
+                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: 0.2s">
+                    <div class="text-2xl mb-2">🚴</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">Specializáció</div>
+                    <!-- PLACEHOLDER: Specializáció -->
+                    <div class="stat-value text-xl sm:text-2xl font-bold text-white">Road & Track</div>
+                </div>
+
+                <!-- Mióta versenyez -->
+                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: 0.3s">
+                    <div class="text-2xl mb-2">📅</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">Versenyez</div>
+                    <div class="stat-value text-xl sm:text-2xl font-bold text-white">2024 óta</div>
+                </div>
+
+                <!-- Kedvenc táv -->
+                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: 0.4s">
+                    <div class="text-2xl mb-2">⚡</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">Kedvenc táv</div>
+                    <div class="stat-value text-xl sm:text-2xl font-bold text-neon-green neon-text-green">20 km hegy</div>
+                </div>
+
+                <!-- Erősség -->
+                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: 0.5s">
+                    <div class="text-2xl mb-2">💪</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">Erősség</div>
+                    <div class="stat-value text-xl sm:text-2xl font-bold text-white">Hegymenet 🏔️</div>
+                </div>
+
+                <!-- Álom -->
+                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: 0.6s">
+                    <div class="text-2xl mb-2">🎯</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">Álom</div>
+                    <div class="stat-value text-xl sm:text-2xl font-bold text-white">🌈 & sárga trikó</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         3. EREDMÉNYEK / ACHIEVEMENTS - Timeline
+         ============================================ -->
+    <section id="achievements" class="relative py-20 sm:py-28 diagonal-top" style="background: linear-gradient(180deg, #0d0d24 0%, #0a0a1a 100%);">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <!-- Szekció cím -->
+            <div class="text-center mb-16 reveal">
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Eredmények</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
+                    ACHIEVE<span class="text-neon-blue">MENTS</span>
+                </h2>
+            </div>
+
+            <!-- Megjegyzés -->
+            <div class="text-center mb-12 reveal">
+                <p class="text-gray-400 text-sm font-body max-w-2xl mx-auto">
+                    Boti 2025-ben még az <span class="text-neon-blue font-medium">U11</span>-es korcsoportban versenyzett, de gyakran indult 1–2 korosztállyal feljebb, ahol a nagyobb távok és erősebb mezőnyök ellen is remekül helytállt.
+                </p>
+            </div>
+
+            <!-- ===== ORSZÁGÚTI EREDMÉNYEK ===== -->
+            <div class="mb-16">
+                <div class="flex items-center gap-3 mb-8 reveal">
+                    <span class="text-2xl">🚴</span>
+                    <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">Országúti kerékpár</h3>
+                </div>
+
+                <div class="relative">
+                    <div class="timeline-line hidden md:block"></div>
+                    <div class="timeline-line md:hidden" style="left: 20px;"></div>
+
+                    <!-- Diákolimpia Országúti Időfutam -->
+                    <div class="relative flex flex-col md:flex-row md:items-center mb-12 md:mb-16 reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 md:pr-12 md:text-right pl-12 md:pl-0">
+                            <div class="glass-card p-5 sm:p-6 neon-border">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U11</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-1">Diákolimpia Országúti Időfutam</h3>
+                                <p class="text-gray-400 text-xs mb-2">Egyéni versenyszám, ahol a versenyzők időre teljesítik a kijelölt távot.</p>
+                                <div class="flex items-center gap-2 md:justify-end">
+                                    <span class="text-2xl">🥉</span>
+                                    <span class="text-amber-400 font-bold">3. hely</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                    </div>
+
+                    <!-- Pilis Kupa Hegyi Időfutam -->
+                    <div class="relative flex flex-col md:flex-row md:items-center mb-12 md:mb-16 reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                        <div class="md:w-1/2 md:pl-12 pl-12">
+                            <div class="glass-card p-5 sm:p-6 neon-border">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U13 ⬆️</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-1">Pilis Kupa Hegyi Időfutam</h3>
+                                <p class="text-gray-400 text-xs mb-2">Emelkedős pályán rendezett időfutam, ahol az erő és állóképesség dönt.</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl">🥈</span>
+                                    <span class="text-gray-300 font-bold">2. hely</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mátra Kör -->
+                    <div class="relative flex flex-col md:flex-row md:items-center mb-12 md:mb-16 reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 md:pr-12 md:text-right pl-12 md:pl-0">
+                            <div class="glass-card p-5 sm:p-6 neon-border">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U13 ⬆️</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-1">Mátra Kör</h3>
+                                <p class="text-gray-400 text-xs mb-2">Hegyes-dombos terepen zajló országúti verseny, több emelkedővel.</p>
+                                <div class="flex items-center gap-2 md:justify-end">
+                                    <span class="text-2xl">🥈</span>
+                                    <span class="text-gray-300 font-bold">2. hely</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                    </div>
+
+                    <!-- Brigetio Időfutam -->
+                    <div class="relative flex flex-col md:flex-row md:items-center reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                        <div class="md:w-1/2 md:pl-12 pl-12">
+                            <div class="glass-card p-5 sm:p-6 neon-border">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U13 ⬆️</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-1">Brigetio Időfutam</h3>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl">🥉</span>
+                                    <span class="text-amber-400 font-bold">3. hely</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PÁLYAKERÉKPÁR EREDMÉNYEK ===== -->
+            <div>
+                <div class="flex items-center gap-3 mb-8 reveal">
+                    <span class="text-2xl">🏟️</span>
+                    <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">Pályakerékpár</h3>
+                </div>
+
+                <div class="relative">
+                    <div class="timeline-line hidden md:block"></div>
+                    <div class="timeline-line md:hidden" style="left: 20px;"></div>
+
+                    <!-- BringAréna Kupa -->
+                    <div class="relative flex flex-col md:flex-row md:items-center mb-12 md:mb-16 reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 md:pr-12 md:text-right pl-12 md:pl-0">
+                            <div class="glass-card p-5 sm:p-6 neon-border" style="border-color: rgba(57, 255, 20, 0.3);">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U11</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-1">BringAréna Kupa</h3>
+                                <div class="flex items-center gap-2 md:justify-end">
+                                    <span class="text-2xl">🥇</span>
+                                    <span class="text-neon-blue font-bold">1. hely 🔥</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                    </div>
+
+                    <!-- Szlovák Kupa – Budapest -->
+                    <div class="relative flex flex-col md:flex-row md:items-center mb-12 md:mb-16 reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                        <div class="md:w-1/2 md:pl-12 pl-12">
+                            <div class="glass-card p-5 sm:p-6 neon-border">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U15 mezőny · U13 értékelés ⬆️⬆️</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-2">Szlovák Kupa – Budapest</h3>
+                                <p class="text-gray-400 text-xs mb-3">Lassú kör: 40–43 km/h · Sprintek: 47–50 km/h</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <span>🥈</span>
+                                        <span class="text-gray-300"><span class="text-white font-medium">Scratch</span> – 2. hely</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <span>🥈</span>
+                                        <span class="text-gray-300"><span class="text-white font-medium">Pontverseny</span> – 2. hely</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <span>🥈</span>
+                                        <span class="text-gray-300"><span class="text-white font-medium">Elimináció</span> – 2. hely</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm border-t border-white/10 pt-2 mt-2">
+                                        <span>🥈</span>
+                                        <span class="text-neon-blue font-bold">Omnium összesített – 2. hely</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Szlovák Kupa – Prága -->
+                    <div class="relative flex flex-col md:flex-row md:items-center reveal">
+                        <div class="timeline-dot hidden md:block" style="top: 50%;"></div>
+                        <div class="timeline-dot md:hidden" style="top: 24px; left: 20px;"></div>
+                        <div class="md:w-1/2 md:pr-12 md:text-right pl-12 md:pl-0">
+                            <div class="glass-card p-5 sm:p-6 neon-border">
+                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">U15 mezőny · U13 értékelés ⬆️⬆️</div>
+                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-2">Szlovák Kupa – Prága</h3>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2 text-sm md:justify-end">
+                                        <span>🥉</span>
+                                        <span class="text-gray-300"><span class="text-white font-medium">Scratch</span> – 3. hely</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm md:justify-end">
+                                        <span>🥉</span>
+                                        <span class="text-gray-300"><span class="text-white font-medium">Pontverseny</span> – 3. hely</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm md:justify-end">
+                                        <span>🥈</span>
+                                        <span class="text-gray-300"><span class="text-white font-medium">Elimináció</span> – 2. hely</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm border-t border-white/10 pt-2 mt-2 md:justify-end">
+                                        <span>🥉</span>
+                                        <span class="text-amber-400 font-bold">Omnium összesített – 3. hely</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 hidden md:block"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOTÓ GALÉRIA
+         ============================================ -->
+    <section id="gallery" class="relative py-20 sm:py-28 bg-gradient-to-b from-dark-bg to-dark-card/20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Szekció cím -->
+            <div class="text-center mb-14 reveal">
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Galéria</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
+                    ACTION <span class="text-neon-blue">SHOTS</span>
+                </h2>
+            </div>
+
+            <!-- GALLERY-START (Ne szerkeszd kézzel! A build.sh generálja.) -->
+            <div class="photo-grid reveal">
+                <div class="gallery-img">
+                    <img src="Pictures/IMG_1799.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img">
+                    <img src="Pictures/IMG_1813.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img">
+                    <img src="Pictures/IMG_1817.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img">
+                    <img src="Pictures/IMG_1825.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img">
+                    <img src="Pictures/IMG_1828.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 reveal" style="transition-delay: 0.2s;">
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_1947.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_1952.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_1980.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2006.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2007.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2040.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2107.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2108.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2176.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2203.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2208.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2235.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2260.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2263.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2287.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2307.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2310.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2322.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/IMG_2329.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-56">
+                    <img src="Pictures/XVIII. Pilis kupa I (538)_vj.jpeg" alt="Nagy Botond" loading="lazy">
+                </div>
+            </div>
+            <!-- GALLERY-END -->
+        </div>
+    </section>
+
+    <!-- ============================================
+         4. FELSZERELÉS / BIKE SETUP
+         ============================================ -->
+    <section id="bikes" class="relative py-20 sm:py-28 diagonal-top" style="background: linear-gradient(180deg, #0d0d24 0%, #0a0a1a 100%);">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <!-- Szekció cím -->
+            <div class="text-center mb-14 reveal">
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Felszerelés</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
+                    BIKE <span class="text-neon-blue">SETUP</span>
+                </h2>
+            </div>
+
+            <div class="max-w-lg mx-auto">
+                <!-- Országúti gép -->
+                <div class="glass-card p-6 sm:p-8 neon-border reveal-left">
+                    <!-- Animált kerék SVG -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">Országúti gép</h3>
+                        <svg width="48" height="48" viewBox="0 0 48 48" class="wheel-spin">
+                            <circle cx="24" cy="24" r="20" stroke="#00D4FF" stroke-width="2" fill="none"/>
+                            <circle cx="24" cy="24" r="16" stroke="#00D4FF" stroke-width="0.5" fill="none" opacity="0.3"/>
+                            <circle cx="24" cy="24" r="3" fill="#00D4FF"/>
+                            <line x1="24" y1="4" x2="24" y2="44" stroke="#00D4FF" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="4" y1="24" x2="44" y2="24" stroke="#00D4FF" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="9.86" y1="9.86" x2="38.14" y2="38.14" stroke="#00D4FF" stroke-width="0.5" opacity="0.4"/>
+                            <line x1="38.14" y1="9.86" x2="9.86" y2="38.14" stroke="#00D4FF" stroke-width="0.5" opacity="0.4"/>
+                        </svg>
+                    </div>
+
+                    <!-- Kép -->
+                    <div class="gallery-img h-48 mb-6">
+                        <img src="Pictures/IMG_2310.jpeg" alt="Botond országúti kerékpárja" loading="lazy">
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 border-b border-white/5">
+                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">Modell</span>
+                            <span class="text-white font-medium">Bianchi XR3 CV</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-white/5">
+                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">Váz</span>
+                            <span class="text-white font-medium">Full Carbon</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-white/5">
+                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">Technológia</span>
+                            <span class="text-white font-medium">Countervail (CV)</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-white/5">
+                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">Kerék</span>
+                            <!-- PLACEHOLDER: Kerék -->
+                            <span class="text-white font-medium">700c</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2">
+                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">Szín</span>
+                            <span class="text-neon-blue font-medium">Celeste</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         5. FUN ZONE - SPEED CHALLENGE GAME
+         ============================================ -->
+    <section id="game" class="relative py-20 sm:py-28 bg-gradient-to-b from-dark-bg to-dark-card/30">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <!-- Szekció cím -->
+            <div class="text-center mb-14 reveal">
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Fun Zone</span>
+                <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
+                    SPEED <span class="text-neon-blue">CHALLENGE</span> 🎮
+                </h2>
+                <p class="text-gray-400 mt-3 font-body text-sm sm:text-base">
+                    Kattints minél gyorsabban 10 másodpercig! Milyen gyors vagy?
+                </p>
+            </div>
+
+            <!-- Game area -->
+            <div class="glass-card p-6 sm:p-10 text-center reveal neon-border">
+                <!-- Timer kijelző -->
+                <div class="mb-6">
+                    <div class="font-orbitron text-5xl sm:text-6xl font-bold text-white mb-2" id="game-timer">
+                        10.0
+                    </div>
+                    <div class="text-xs font-mono text-gray-500 tracking-wider uppercase">Másodperc</div>
+                    <!-- Timer bar -->
+                    <div class="timer-bar mt-3 max-w-xs mx-auto">
+                        <div class="timer-bar-fill" id="timer-bar-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <!-- Kattintás számláló -->
+                <div class="mb-8">
+                    <div class="font-orbitron text-3xl sm:text-4xl font-bold text-neon-green neon-text-green" id="click-count">
+                        0
+                    </div>
+                    <div class="text-xs font-mono text-gray-500 tracking-wider uppercase mt-1">Kattintás</div>
+                </div>
+
+                <!-- Game gomb -->
+                <button id="game-btn" class="game-btn text-lg sm:text-xl font-bold" aria-label="Kattints a játékhoz">
+                    START ⚡
+                </button>
+
+                <!-- Eredmény -->
+                <div id="game-result" class="mt-6 hidden">
+                    <div class="font-mono text-sm text-gray-400 mb-1">Eredmény:</div>
+                    <div class="font-orbitron text-2xl sm:text-3xl font-bold text-neon-blue" id="game-cps">0.0 CPS</div>
+                    <div class="font-orbitron text-lg mt-2" id="game-rank"></div>
+                    <button id="game-restart" class="mt-4 font-mono text-xs tracking-wider text-gray-400 hover:text-neon-blue transition-colors border border-gray-700 hover:border-neon-blue/50 px-4 py-2 rounded-lg">
+                        ÚJRA ↺
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         6. MOTIVÁCIÓS SZEKCIÓ
+         ============================================ -->
+    <section id="motivation" class="relative py-20 sm:py-28 overflow-hidden diagonal-top" style="background: linear-gradient(180deg, #0d0d24 0%, #0a0a1a 100%);">
+        <!-- Háttér fogaskerék SVG -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <svg width="500" height="500" viewBox="0 0 500 500" class="gear-rotate opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+                <path d="M250 50 L270 90 L290 50 L300 95 L320 60 L325 105 L350 75 L345 120 L375 95 L365 140 L400 120 L385 160 L415 145 L395 180 L430 170 L405 200 L440 195 L410 220 L445 220 L415 240 L450 245 L415 260 L445 270 L410 280 L440 295 L405 300 L430 320 L395 320 L415 345 L385 340 L400 365 L365 355 L375 385 L345 370 L350 400 L325 385 L320 415 L300 395 L290 425 L270 400 L250 430 L230 400 L210 425 L200 395 L180 415 L175 385 L150 400 L155 370 L125 385 L135 355 L100 365 L115 340 L85 345 L105 320 L70 320 L95 300 L60 295 L90 280 L55 270 L85 260 L50 245 L85 240 L55 220 L90 220 L60 195 L95 200 L70 170 L105 180 L85 145 L115 160 L100 120 L135 140 L125 95 L155 120 L150 75 L175 105 L180 60 L200 95 L210 50 L230 90 Z" fill="#00D4FF"/>
+                <circle cx="250" cy="250" r="100" fill="#0a0a1a"/>
+                <circle cx="250" cy="250" r="85" stroke="#00D4FF" stroke-width="2" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+            <!-- Fő idézet -->
+            <div class="text-center mb-12 reveal">
+                <svg class="w-8 h-8 mx-auto mb-4 text-neon-blue/30" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609L9.978 5.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H0z"/>
+                </svg>
+                <!-- PLACEHOLDER: Motivációs idézet -->
+                <blockquote class="font-orbitron text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-relaxed italic">
+                    A fájdalom ideiglenes,<br>
+                    <span class="text-neon-blue neon-text">a dicsőség örök.</span> 🔥
+                </blockquote>
+            </div>
+
+            <!-- Motivációs kártyák -->
+            <div class="grid sm:grid-cols-3 gap-4 sm:gap-6">
+                <!-- PLACEHOLDER: Motivációs mondatok -->
+                <div class="glass-card p-5 text-center reveal" style="transition-delay: 0.1s">
+                    <div class="text-3xl mb-3">🏔️</div>
+                    <p class="text-gray-300 text-sm leading-relaxed">Minden emelkedő után egy lejtő jön. Csak tekerj tovább!</p>
+                </div>
+                <div class="glass-card p-5 text-center reveal" style="transition-delay: 0.2s">
+                    <div class="text-3xl mb-3">⚡</div>
+                    <p class="text-gray-300 text-sm leading-relaxed">A sebesség nem ajándék – a sebesség kemény munka eredménye.</p>
+                </div>
+                <div class="glass-card p-5 text-center reveal" style="transition-delay: 0.3s">
+                    <div class="text-3xl mb-3">🎯</div>
+                    <p class="text-gray-300 text-sm leading-relaxed">Az álmok nem teljesülnek maguktól. Minden nap edzés, minden nap egy lépés közelebb.</p>
+                </div>
+            </div>
+
+            <!-- Extra fotók -->
+            <div class="grid grid-cols-2 gap-4 mt-10 reveal" style="transition-delay: 0.3s;">
+                <div class="gallery-img h-48 sm:h-64">
+                    <img src="Pictures/IMG_2040.jpeg" alt="Nagy Botond a hegyen" loading="lazy">
+                </div>
+                <div class="gallery-img h-48 sm:h-64">
+                    <img src="Pictures/IMG_2007.jpeg" alt="Nagy Botond versenyen" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         7. FOOTER
+         ============================================ -->
+    <footer class="relative py-12 sm:py-16 bg-dark-bg border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <!-- Logo -->
+            <div class="font-orbitron text-2xl font-bold text-white mb-6">
+                NB<span class="text-neon-blue">.</span>
+            </div>
+
+            <!-- Social linkek -->
+            <div class="flex items-center justify-center gap-6 mb-8">
+                <!-- PLACEHOLDER: Szociális média linkek - cseréld ki valós URL-ekre -->
+                <a href="#" class="group" aria-label="Instagram">
+                    <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-neon-blue/50 group-hover:bg-neon-blue/10 transition-all duration-300">
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-neon-blue transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="#" class="group" aria-label="Strava">
+                    <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-neon-green/50 group-hover:bg-neon-green/10 transition-all duration-300">
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-neon-green transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Easter egg szöveg - kattintásra konfetti -->
+            <p class="text-gray-500 text-sm font-mono cursor-pointer hover:text-gray-300 transition-colors" id="footer-easter-egg" role="button" tabindex="0" aria-label="Kattints a meglepetésért">
+                Made with ❤️ and 🚴
+            </p>
+            <p class="text-gray-600 text-xs font-mono mt-2">
+                &copy; <!-- PLACEHOLDER: Aktuális év --> 2025 Nagy Botond. Minden jog fenntartva.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ============================================
+        // 1. RÉSZECSKÉK (Particles) - Hero háttér
+        // ============================================
+        (function initParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            const count = window.innerWidth < 768 ? 15 : 30;
+
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (4 + Math.random() * 8) + 's';
+                p.style.animationDelay = (Math.random() * 6) + 's';
+                p.style.width = (1 + Math.random() * 2) + 'px';
+                p.style.height = p.style.width;
+
+                // Váltakozó szín: kék és zöld
+                if (Math.random() > 0.7) {
+                    p.style.background = '#39FF14';
+                }
+
+                container.appendChild(p);
+            }
+        })();
+
+        // ============================================
+        // 2. TYPEWRITER EFFEKT
+        // ============================================
+        (function initTypewriter() {
+            const el = document.getElementById('typewriter-text');
+            if (!el) return;
+
+            // Kis késleltetéssel indítjuk
+            setTimeout(() => {
+                el.classList.add('active');
+            }, 1500);
+        })();
+
+        // ============================================
+        // 3. SCROLL REVEAL ANIMÁCIÓ (Intersection Observer)
+        // ============================================
+        (function initScrollReveal() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Nem szüntetjük meg a megfigyelést, ha újra el akarod rejteni
+                    }
+                });
+            }, observerOptions);
+
+            // Minden reveal elemet megfigyelünk
+            document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+                observer.observe(el);
+            });
+        })();
+
+        // ============================================
+        // 4. NAVBAR HÁTTÉR SCROLL-RA
+        // ============================================
+        (function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        if (window.scrollY > 80) {
+                            navbar.style.background = 'rgba(10, 10, 26, 0.9)';
+                            navbar.style.backdropFilter = 'blur(16px)';
+                            navbar.style.borderBottom = '1px solid rgba(0, 212, 255, 0.1)';
+                        } else {
+                            navbar.style.background = 'transparent';
+                            navbar.style.backdropFilter = 'none';
+                            navbar.style.borderBottom = 'none';
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        })();
+
+        // ============================================
+        // 5. MOBIL MENÜ
+        // ============================================
+        (function initMobileMenu() {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (!btn || !menu) return;
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            // Menü bezárása linkre kattintáskor
+            menu.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        })();
+
+        // ============================================
+        // 6. SPEED CHALLENGE MINI-GAME
+        // ============================================
+        (function initSpeedGame() {
+            const btn = document.getElementById('game-btn');
+            const timerEl = document.getElementById('game-timer');
+            const clickCountEl = document.getElementById('click-count');
+            const resultEl = document.getElementById('game-result');
+            const cpsEl = document.getElementById('game-cps');
+            const rankEl = document.getElementById('game-rank');
+            const restartBtn = document.getElementById('game-restart');
+            const timerBarFill = document.getElementById('timer-bar-fill');
+
+            if (!btn) return;
+
+            let gameState = 'idle'; // idle, running, finished
+            let clicks = 0;
+            let startTime = 0;
+            let timerInterval = null;
+            const GAME_DURATION = 10000; // 10 másodperc
+
+            function resetGame() {
+                gameState = 'idle';
+                clicks = 0;
+                clickCountEl.textContent = '0';
+                timerEl.textContent = '10.0';
+                timerBarFill.style.width = '100%';
+                btn.textContent = 'START ⚡';
+                btn.classList.remove('active');
+                resultEl.classList.add('hidden');
+            }
+
+            function startGame() {
+                gameState = 'running';
+                clicks = 0;
+                startTime = Date.now();
+                clickCountEl.textContent = '0';
+                btn.textContent = 'KATTINTS! 🔥';
+                btn.classList.add('active');
+                resultEl.classList.add('hidden');
+
+                // Timer frissítés
+                timerInterval = setInterval(() => {
+                    const elapsed = Date.now() - startTime;
+                    const remaining = Math.max(0, GAME_DURATION - elapsed);
+                    const seconds = (remaining / 1000).toFixed(1);
+                    timerEl.textContent = seconds;
+                    timerBarFill.style.width = (remaining / GAME_DURATION * 100) + '%';
+
+                    if (remaining <= 0) {
+                        endGame();
+                    }
+                }, 50);
+            }
+
+            function endGame() {
+                gameState = 'finished';
+                clearInterval(timerInterval);
+                timerEl.textContent = '0.0';
+                timerBarFill.style.width = '0%';
+                btn.textContent = 'VÉGE! 🏁';
+                btn.classList.remove('active');
+
+                // CPS számítás
+                const cps = (clicks / (GAME_DURATION / 1000)).toFixed(1);
+                cpsEl.textContent = cps + ' CPS';
+
+                // Rangsorolás
+                let rank = '';
+                const cpsNum = parseFloat(cps);
+                if (cpsNum < 3) {
+                    rank = '🐌 Kezdő – Még gyakorolj!';
+                } else if (cpsNum < 5) {
+                    rank = '🚶 Amatőr – Nem rossz!';
+                } else if (cpsNum < 7) {
+                    rank = '🚴 Profi – Jó tempó!';
+                } else if (cpsNum < 9) {
+                    rank = '⚡ Bajnok – Szuper gyors!';
+                } else {
+                    rank = '🏆 LEGENDA – Hihetetlen! 🔥';
+                }
+                rankEl.textContent = rank;
+
+                resultEl.classList.remove('hidden');
+            }
+
+            btn.addEventListener('click', () => {
+                if (gameState === 'idle') {
+                    startGame();
+                } else if (gameState === 'running') {
+                    clicks++;
+                    clickCountEl.textContent = clicks;
+                }
+            });
+
+            // Billentyűzet támogatás (Space)
+            btn.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' || e.code === 'Enter') {
+                    e.preventDefault();
+                    if (gameState === 'idle') {
+                        startGame();
+                    } else if (gameState === 'running') {
+                        clicks++;
+                        clickCountEl.textContent = clicks;
+                    }
+                }
+            });
+
+            if (restartBtn) {
+                restartBtn.addEventListener('click', resetGame);
+            }
+        })();
+
+        // ============================================
+        // 7. KONFETTI ANIMÁCIÓ (Footer Easter Egg)
+        // ============================================
+        (function initConfetti() {
+            const trigger = document.getElementById('footer-easter-egg');
+            const canvas = document.getElementById('confetti-canvas');
+            if (!trigger || !canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let confettiPieces = [];
+            let animationId = null;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Konfetti darab osztály
+            class Confetti {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = -10;
+                    this.size = Math.random() * 8 + 4;
+                    this.speedY = Math.random() * 3 + 2;
+                    this.speedX = (Math.random() - 0.5) * 4;
+                    this.rotation = Math.random() * 360;
+                    this.rotationSpeed = (Math.random() - 0.5) * 10;
+                    this.opacity = 1;
+                    this.color = ['#00D4FF', '#39FF14', '#FF6B6B', '#FFD93D', '#C084FC', '#FF9F43'][Math.floor(Math.random() * 6)];
+                }
+
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.rotation += this.rotationSpeed;
+                    this.speedY += 0.05; // gravitáció
+                    this.opacity -= 0.003;
+                    return this.opacity > 0 && this.y < canvas.height + 20;
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate((this.rotation * Math.PI) / 180);
+                    ctx.globalAlpha = this.opacity;
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
+                    ctx.restore();
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiPieces = confettiPieces.filter(c => {
+                    c.draw();
+                    return c.update();
+                });
+
+                if (confettiPieces.length > 0) {
+                    animationId = requestAnimationFrame(animate);
+                }
+            }
+
+            function launchConfetti() {
+                // 100 konfetti darab
+                for (let i = 0; i < 100; i++) {
+                    setTimeout(() => {
+                        confettiPieces.push(new Confetti());
+                    }, i * 15);
+                }
+
+                if (!animationId) {
+                    animate();
+                }
+            }
+
+            trigger.addEventListener('click', launchConfetti);
+            trigger.addEventListener('keydown', (e) => {
+                if (e.code === 'Enter' || e.code === 'Space') {
+                    e.preventDefault();
+                    launchConfetti();
+                }
+            });
+        })();
+
+        // ============================================
+        // 8. LIGHTBOX - KÉPNAGYÍTÓ
+        // ============================================
+        (function initLightbox() {
+            const overlay = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('lightbox-close');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            const counterEl = document.getElementById('lightbox-counter');
+            if (!overlay || !lightboxImg) return;
+
+            // Összegyűjtjük az összes galéria képet (src-ket)
+            let images = [];
+            let currentIndex = 0;
+
+            function collectImages() {
+                images = [];
+                document.querySelectorAll('.gallery-img img').forEach(img => {
+                    images.push({ src: img.src, alt: img.alt });
+                });
+            }
+
+            function openLightbox(index) {
+                collectImages();
+                if (index < 0 || index >= images.length) return;
+                currentIndex = index;
+                lightboxImg.src = images[currentIndex].src;
+                lightboxImg.alt = images[currentIndex].alt;
+                counterEl.textContent = (currentIndex + 1) + ' / ' + images.length;
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                lightboxImg.src = images[currentIndex].src;
+                lightboxImg.alt = images[currentIndex].alt;
+                counterEl.textContent = (currentIndex + 1) + ' / ' + images.length;
+            }
+
+            function showNext() {
+                currentIndex = (currentIndex + 1) % images.length;
+                lightboxImg.src = images[currentIndex].src;
+                lightboxImg.alt = images[currentIndex].alt;
+                counterEl.textContent = (currentIndex + 1) + ' / ' + images.length;
+            }
+
+            // Kattintás a galéria képekre
+            document.addEventListener('click', (e) => {
+                const galleryImg = e.target.closest('.gallery-img');
+                if (galleryImg) {
+                    const img = galleryImg.querySelector('img');
+                    if (!img) return;
+                    collectImages();
+                    const idx = images.findIndex(i => i.src === img.src);
+                    if (idx !== -1) {
+                        openLightbox(idx);
+                    }
+                }
+            });
+
+            // Bezárás
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeLightbox();
+            });
+
+            // Overlay kattintás bezár (de a képre nem)
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeLightbox();
+                }
+            });
+
+            // Navigáció
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showPrev();
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showNext();
+            });
+
+            // Billentyűzet: Escape, bal/jobb nyíl
+            document.addEventListener('keydown', (e) => {
+                if (!overlay.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrev();
+                if (e.key === 'ArrowRight') showNext();
+            });
+
+            // Swipe támogatás mobilon
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            overlay.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            overlay.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) showNext();
+                    else showPrev();
+                }
+            }, { passive: true });
+        })();
+
+        // ============================================
+        // 9. PARALLAX EFFEKT (enyhe, Hero háttér)
+        // ============================================
+        (function initParallax() {
+            const hero = document.getElementById('hero');
+            const bikeSvg = hero ? hero.querySelector('.bike-silhouette') : null;
+            if (!bikeSvg) return;
+
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrollY = window.scrollY;
+                        const heroHeight = hero.offsetHeight;
+                        if (scrollY < heroHeight) {
+                            bikeSvg.style.transform = `rotate(-5deg) translateY(${scrollY * 0.15}px)`;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>
