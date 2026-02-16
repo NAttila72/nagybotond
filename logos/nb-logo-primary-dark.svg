@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" width="360" height="220">
+  <defs>
+    <filter id="neonGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="strongGlow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="speedFade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00D4FF" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#00D4FF" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="greenSpeed" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#39FF14" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#39FF14" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="frameGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="100%" stop-color="#39FF14"/>
+    </linearGradient>
+    <linearGradient id="nbGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="40%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#39FF14"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Háttér -->
+  <rect width="360" height="220" fill="#0a0a1a"/>
+
+  <!-- NB watermark -->
+  <text x="180" y="125" font-family="'Orbitron', sans-serif" font-weight="900" font-size="150"
+        fill="none" stroke="#00D4FF" stroke-width="0.5" text-anchor="middle" opacity="0.04" letter-spacing="15">NB</text>
+
+  <!-- Speed lines -->
+  <line x1="10" y1="58" x2="75" y2="58" stroke="url(#speedFade)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="5" y1="72" x2="85" y2="72" stroke="url(#speedFade)" stroke-width="1" opacity="0.35"/>
+  <line x1="20" y1="86" x2="70" y2="86" stroke="url(#greenSpeed)" stroke-width="1" opacity="0.25"/>
+  <line x1="8" y1="100" x2="65" y2="100" stroke="url(#speedFade)" stroke-width="1.2" opacity="0.3"/>
+  <line x1="25" y1="114" x2="60" y2="114" stroke="url(#greenSpeed)" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- Kerékpáros -->
+  <g transform="translate(88, 12) scale(0.88)">
+    <!-- Hátsó kerék -->
+    <g>
+      <circle cx="55" cy="118" r="30" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.9"/>
+      <circle cx="55" cy="118" r="3" fill="#00D4FF"/>
+      <line x1="55" y1="88" x2="55" y2="148" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="25" y1="118" x2="85" y2="118" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="34" y1="97" x2="76" y2="139" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="76" y1="97" x2="34" y2="139" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="43" y1="90" x2="67" y2="146" stroke="#00D4FF" stroke-width="0.4" opacity="0.3"/>
+      <line x1="27" y1="106" x2="83" y2="130" stroke="#00D4FF" stroke-width="0.4" opacity="0.3"/>
+    </g>
+    <!-- Első kerék -->
+    <g>
+      <circle cx="165" cy="118" r="30" fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.9"/>
+      <circle cx="165" cy="118" r="3" fill="#00D4FF"/>
+      <line x1="165" y1="88" x2="165" y2="148" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="135" y1="118" x2="195" y2="118" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="144" y1="97" x2="186" y2="139" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="186" y1="97" x2="144" y2="139" stroke="#00D4FF" stroke-width="0.6" opacity="0.45"/>
+      <line x1="153" y1="90" x2="177" y2="146" stroke="#00D4FF" stroke-width="0.4" opacity="0.3"/>
+      <line x1="137" y1="106" x2="193" y2="130" stroke="#00D4FF" stroke-width="0.4" opacity="0.3"/>
+    </g>
+    <!-- Kerék glow -->
+    <circle cx="55" cy="118" r="30" fill="none" stroke="#00D4FF" stroke-width="1" opacity="0.15" filter="url(#strongGlow)"/>
+    <circle cx="165" cy="118" r="30" fill="none" stroke="#00D4FF" stroke-width="1" opacity="0.15" filter="url(#strongGlow)"/>
+    <!-- Váz -->
+    <g stroke="url(#frameGrad)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="85" y1="68" x2="55" y2="118"/>
+      <line x1="85" y1="68" x2="138" y2="80"/>
+      <line x1="55" y1="118" x2="138" y2="80"/>
+      <line x1="138" y1="80" x2="165" y2="118"/>
+      <line x1="55" y1="118" x2="110" y2="98"/>
+      <line x1="85" y1="68" x2="80" y2="56"/>
+      <line x1="138" y1="80" x2="148" y2="65"/>
+    </g>
+    <!-- Nyereg -->
+    <ellipse cx="80" cy="54" rx="13" ry="3.2" fill="#39FF14" opacity="0.75"/>
+    <!-- Kormány -->
+    <path d="M144 62 Q154 53 157 63 Q158 70 153 72" fill="none" stroke="#39FF14" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Versenyző -->
+    <g opacity="0.88">
+      <path d="M83 51 Q100 34 140 40 L138 47 Q102 42 87 54 Z" fill="white"/>
+      <circle cx="144" cy="35" r="7.5" fill="white"/>
+      <path d="M137 31 Q144 24 152 32 L153 36 Q147 29 139 34 Z" fill="#00D4FF" opacity="0.55"/>
+      <path d="M85 56 L76 86 L60 112" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+      <path d="M85 56 L100 82 L110 98" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+    </g>
+    <!-- Pedál -->
+    <circle cx="110" cy="98" r="4.5" fill="none" stroke="#39FF14" stroke-width="1.5" opacity="0.5"/>
+  </g>
+
+  <!-- NB MONOGRAM -->
+  <text x="180" y="192" font-family="'Orbitron', sans-serif" font-weight="900" font-size="36"
+        fill="url(#nbGrad)" text-anchor="middle" letter-spacing="10" filter="url(#textGlow)">NB</text>
+  <!-- Tagline -->
+  <text x="180" y="212" font-family="'Orbitron', sans-serif" font-weight="700" font-size="8"
+        fill="#00D4FF" text-anchor="middle" letter-spacing="5" opacity="0.6">ROAD  ·  TRACK  ·  SPEED</text>
+  <!-- Dekor vonalak -->
+  <line x1="105" y1="198" x2="145" y2="198" stroke="url(#frameGrad)" stroke-width="1" opacity="0.3"/>
+  <line x1="215" y1="198" x2="255" y2="198" stroke="url(#frameGrad)" stroke-width="1" opacity="0.3"/>
+</svg>

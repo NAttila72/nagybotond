@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+  <defs>
+    <filter id="inlineGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="inlineFrame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="100%" stop-color="#39FF14"/>
+    </linearGradient>
+    <linearGradient id="inlineNB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="50%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#39FF14"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mini kerékpár ikon -->
+  <g transform="translate(8, 5) scale(0.38)" filter="url(#inlineGlow)">
+    <circle cx="30" cy="80" r="22" fill="none" stroke="#00D4FF" stroke-width="2.5"/>
+    <circle cx="90" cy="80" r="22" fill="none" stroke="#00D4FF" stroke-width="2.5"/>
+    <circle cx="30" cy="80" r="2.5" fill="#00D4FF"/>
+    <circle cx="90" cy="80" r="2.5" fill="#00D4FF"/>
+    <g stroke="url(#inlineFrame)" stroke-width="3" fill="none" stroke-linecap="round">
+      <line x1="48" y1="48" x2="30" y2="80"/>
+      <line x1="48" y1="48" x2="74" y2="56"/>
+      <line x1="30" y1="80" x2="74" y2="56"/>
+      <line x1="74" y1="56" x2="90" y2="80"/>
+      <line x1="30" y1="80" x2="60" y2="65"/>
+    </g>
+    <ellipse cx="45" cy="42" rx="10" ry="3" fill="#39FF14" opacity="0.7"/>
+    <path d="M47 40 Q55 30 72 34 L71 38 Q57 35 50 42 Z" fill="white" opacity="0.8"/>
+    <circle cx="74" cy="30" r="6" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- Elválasztó -->
+  <line x1="55" y1="14" x2="55" y2="46" stroke="url(#inlineFrame)" stroke-width="1" opacity="0.3"/>
+
+  <!-- NB monogram -->
+  <text x="68" y="42" font-family="'Orbitron', sans-serif" font-weight="900" font-size="30"
+        fill="url(#inlineNB)" letter-spacing="5" filter="url(#inlineGlow)">NB</text>
+
+  <!-- Tagline -->
+  <text x="142" y="24" font-family="'Orbitron', sans-serif" font-weight="700" font-size="7"
+        fill="#00D4FF" letter-spacing="3" opacity="0.5">CYCLING</text>
+  <line x1="142" y1="30" x2="200" y2="30" stroke="url(#inlineFrame)" stroke-width="0.8" opacity="0.25"/>
+  <text x="142" y="42" font-family="'Orbitron', sans-serif" font-weight="700" font-size="6"
+        fill="#5a6a8a" letter-spacing="2.5" opacity="0.45">ROAD · TRACK · SPEED</text>
+</svg>
