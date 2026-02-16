@@ -798,15 +798,20 @@ function renderGallery() {
     const countEl = document.getElementById('gallery-count');
     countEl.textContent = `${state.galleryFiles.length} kép`;
 
-    grid.innerHTML = state.galleryFiles.map(f => `
+    grid.innerHTML = state.galleryFiles.map(f => {
+        // Ha van lokális preview (frissen feltöltött kép), azt használjuk
+        const imgSrc = f._preview
+            ? f._preview
+            : `https://raw.githubusercontent.com/${state.owner}/${state.repo}/${state.branch}/Pictures/${encodeURIComponent(f.name)}`;
+        return `
         <div class="img-thumb">
-            <img src="https://raw.githubusercontent.com/${state.owner}/${state.repo}/${state.branch}/Pictures/${encodeURIComponent(f.name)}" alt="${escHtml(f.name)}" loading="lazy">
+            <img src="${imgSrc}" alt="${escHtml(f.name)}" loading="lazy">
             <div class="delete-overlay">
                 <button class="neon-btn danger text-xs" onclick="deleteImage('${escHtml(f.name)}', '${f.sha}')">🗑</button>
             </div>
             <div class="absolute bottom-0 left-0 right-0 bg-black/70 px-1 py-0.5 text-[10px] text-gray-400 truncate">${escHtml(f.name)}</div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 }
 
 // ============================================
@@ -867,7 +872,7 @@ function removeBikeSpec(index) {
 async function uploadImage(file) {
     if (file.size > 10 * 1024 * 1024) {
         alert('A fájl túl nagy (max 10MB)!');
-        return;
+        return null;
     }
 
     const reader = new FileReader();
@@ -883,7 +888,7 @@ async function uploadImage(file) {
                         branch: state.branch
                     })
                 });
-                resolve(result);
+                resolve({ result, fileName: file.name, dataUrl: reader.result });
             } catch(e) {
                 reject(e);
             }
@@ -897,6 +902,7 @@ async function handleUpload(files) {
     const progressEl = document.getElementById('upload-progress');
     const statusEl = document.getElementById('upload-status');
     const barEl = document.getElementById('upload-bar');
+    const uploaded = [];
 
     progressEl.classList.remove('hidden');
 
@@ -905,15 +911,30 @@ async function handleUpload(files) {
         barEl.style.width = ((i + 1) / files.length * 100) + '%';
 
         try {
-            await uploadImage(files[i]);
+            const info = await uploadImage(files[i]);
+            if (info) uploaded.push(info);
         } catch(e) {
             setStatus(`Hiba: ${files[i].name} - ${e.message}`, 'error');
         }
     }
 
     progressEl.classList.add('hidden');
-    setStatus(`${files.length} kép feltöltve!`, 'ok');
-    await loadGallery();
+
+    // Optimisztikus UI frissítés: azonnal megmutatjuk a feltöltött képeket
+    if (uploaded.length > 0) {
+        for (const u of uploaded) {
+            const sha = u.result?.content?.sha || '';
+            state.galleryFiles.push({ name: u.fileName, sha, _preview: u.dataUrl });
+        }
+        renderGallery();
+    }
+
+    setStatus(`${uploaded.length} kép feltöltve! Az élő oldalon ~1 perc múlva jelenik meg.`, 'ok');
+
+    // Háttérben frissítjük a galériát a GitHub API-ból (2mp delay az indexeléshez)
+    setTimeout(async () => {
+        await loadGallery();
+    }, 2500);
 }
 
 async function deleteImage(name, sha) {
