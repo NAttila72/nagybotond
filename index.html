@@ -396,6 +396,8 @@
             transition: all 0.15s ease;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
             outline: none;
         }
 
@@ -1692,7 +1694,25 @@
                 resultEl.classList.remove('hidden');
             }
 
-            btn.addEventListener('click', () => {
+            // Touch esemény mobilra (gyorsabb, nincs zoom)
+            let touchHandled = false;
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchHandled = true;
+                if (gameState === 'idle') {
+                    startGame();
+                } else if (gameState === 'running') {
+                    clicks++;
+                    clickCountEl.textContent = clicks;
+                }
+            }, { passive: false });
+
+            // Click esemény desktopra (csak ha nem volt touch)
+            btn.addEventListener('click', (e) => {
+                if (touchHandled) {
+                    touchHandled = false;
+                    return;
+                }
                 if (gameState === 'idle') {
                     startGame();
                 } else if (gameState === 'running') {
