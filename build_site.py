@@ -35,14 +35,7 @@ def discover_images():
 
 def build_hero(data):
     hero = data['hero']
-    return f'''            <!-- Kis label felül -->
-            <div class="hero-content mb-6">
-                <span class="inline-block font-mono text-xs tracking-[0.3em] text-neon-green/80 uppercase border border-neon-green/20 px-4 py-1.5 rounded-full">
-                    Rider Profile {hero.get('profileYear', '2025')}
-                </span>
-            </div>
-
-            <!-- Fő név -->
+    return f'''            <!-- Fő név -->
             <h1 class="hero-content font-orbitron text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none mb-4 neon-text neon-glow-pulse text-white">
                 {hero['name']}
             </h1>
