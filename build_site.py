@@ -330,7 +330,7 @@ def build_footer(data):
 
     return f'''            <!-- Logo -->
             <div class="mb-6">
-                <img src="logos/nb-logo-primary-dark.svg" alt="NB Logo" class="h-16 mx-auto">
+                <img src="logos/nb-logo-primary-dark.svg" alt="NB Logo" class="h-[88px] mx-auto">
             </div>
 
             <!-- Social linkek -->
