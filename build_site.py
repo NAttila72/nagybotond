@@ -22,15 +22,52 @@ def load_json():
 
 
 def discover_images():
-    """Auto-discover images from Pictures/ folder"""
+    """Auto-discover images from Pictures/ folder (top-level files only)"""
     if not os.path.isdir(PICTURES_DIR):
         return []
     exts = {'.jpg', '.jpeg', '.png', '.webp'}
     images = []
     for fname in sorted(os.listdir(PICTURES_DIR)):
-        if os.path.splitext(fname)[1].lower() in exts:
+        fpath = os.path.join(PICTURES_DIR, fname)
+        if os.path.isfile(fpath) and os.path.splitext(fname)[1].lower() in exts:
             images.append(fname)
     return images
+
+
+def get_optimized_path(original_path, size, fmt):
+    """Convert 'Pictures/IMG_1952.jpeg' to optimized path.
+    size: 'thumb' or 'medium'
+    fmt: 'jpeg' or 'webp'
+    """
+    fname = os.path.basename(original_path)
+    stem = os.path.splitext(fname)[0]
+    if fmt == 'webp':
+        return f'Pictures/optimized/{size}-webp/{stem}.webp'
+    else:
+        return f'Pictures/optimized/{size}/{stem}.jpeg'
+
+
+def picture_element(original_path, size, alt, extra_attrs='', indent=20, data_full=False):
+    """Generate a <picture> element with WebP source and JPEG fallback.
+    size: 'thumb' or 'medium'
+    data_full: if True, adds data-full-jpeg attr pointing to medium version (for lightbox)
+    """
+    pad = ' ' * indent
+    webp_src = get_optimized_path(original_path, size, 'webp')
+    jpeg_src = get_optimized_path(original_path, size, 'jpeg')
+
+    data_attr = ''
+    if data_full:
+        medium_jpeg = get_optimized_path(original_path, 'medium', 'jpeg')
+        data_attr = f' data-full-jpeg="{medium_jpeg}"'
+
+    extra = f' {extra_attrs}' if extra_attrs else ''
+    return (
+        f'{pad}<picture>\n'
+        f'{pad}    <source srcset="{webp_src}" type="image/webp">\n'
+        f'{pad}    <img src="{jpeg_src}" alt="{alt}"{extra}{data_attr}>\n'
+        f'{pad}</picture>'
+    )
 
 
 def build_hero(data):
@@ -58,7 +95,7 @@ def build_hero(data):
             <!-- Fő fotó -->
             <div class="hero-content-delay mt-10 mx-auto max-w-md">
                 <div class="hero-image aspect-[3/4] max-h-[420px] mx-auto shadow-2xl shadow-neon-blue/10">
-                    <img src="{hero['heroImage']}" alt="{hero['name']} verseny közben" loading="eager">
+{picture_element(hero['heroImage'], 'medium', f"{hero['name']} verseny közben", 'loading="eager"', indent=20)}
                 </div>
             </div>'''
 
@@ -203,7 +240,7 @@ def build_gallery(images):
     lines = ['            <div class="photo-grid reveal">']
     for fname in grid_images:
         lines.append(f'                <div class="gallery-img">')
-        lines.append(f'                    <img src="Pictures/{fname}" alt="Nagy Botond" loading="lazy">')
+        lines.append(picture_element(f'Pictures/{fname}', 'thumb', 'Nagy Botond', 'loading="lazy"', indent=20, data_full=True))
         lines.append(f'                </div>')
     lines.append('            </div>')
 
@@ -211,7 +248,7 @@ def build_gallery(images):
         lines.append('            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 reveal" style="transition-delay: 0.2s;">')
         for fname in rest_images:
             lines.append(f'                <div class="gallery-img h-48 sm:h-56">')
-            lines.append(f'                    <img src="Pictures/{fname}" alt="Nagy Botond" loading="lazy">')
+            lines.append(picture_element(f'Pictures/{fname}', 'thumb', 'Nagy Botond', 'loading="lazy"', indent=20, data_full=True))
             lines.append(f'                </div>')
         lines.append('            </div>')
 
@@ -251,7 +288,7 @@ def build_bike(data):
 
                     <!-- Kép -->
                     <div class="gallery-img h-48 mb-6">
-                        <img src="{bike['image']}" alt="Botond országúti kerékpárja" loading="lazy">
+{picture_element(bike['image'], 'medium', 'Botond országúti kerékpárja', 'loading="lazy"', indent=24)}
                     </div>
 
                     <div class="space-y-3">
@@ -278,7 +315,7 @@ def build_motivation(data):
     photos_lines = []
     for photo in mot.get('photos', []):
         photos_lines.append(f'''                <div class="gallery-img h-48 sm:h-64">
-                    <img src="{photo}" alt="Nagy Botond" loading="lazy">
+{picture_element(photo, 'medium', 'Nagy Botond', 'loading="lazy"', indent=20)}
                 </div>''')
 
     photos_html = '\n'.join(photos_lines)

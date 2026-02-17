@@ -11,4 +11,6 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
+pip install Pillow 2>/dev/null || pip3 install Pillow 2>/dev/null
+python3 optimize_images.py
 python3 build_site.py
