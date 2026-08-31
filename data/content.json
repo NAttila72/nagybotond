@@ -392,62 +392,120 @@
       "Pictures/IMG_2007.jpeg"
     ]
   },
-  "bike": {
-    "name": {
-      "hu": "Országúti gép",
-      "en": "Road bike",
-      "de": "Straßenrad",
-      "sl": "Cestno kolo"
+  "bikes": [
+    {
+      "name": {
+        "hu": "Országúti gép",
+        "en": "Road bike",
+        "de": "Straßenrad",
+        "sl": "Cestno kolo"
+      },
+      "image": "Pictures/IMG_2310.jpeg",
+      "specs": [
+        {
+          "label": {
+            "hu": "Modell",
+            "en": "Model",
+            "de": "Modell",
+            "sl": "Model"
+          },
+          "value": "Bianchi XR3 CV"
+        },
+        {
+          "label": {
+            "hu": "Váz",
+            "en": "Frame",
+            "de": "Rahmen",
+            "sl": "Okvir"
+          },
+          "value": "Full Carbon"
+        },
+        {
+          "label": {
+            "hu": "Technológia",
+            "en": "Technology",
+            "de": "Technologie",
+            "sl": "Tehnologija"
+          },
+          "value": "Countervail (CV)"
+        },
+        {
+          "label": {
+            "hu": "Kerék",
+            "en": "Wheels",
+            "de": "Räder",
+            "sl": "Kolesa"
+          },
+          "value": "700c"
+        },
+        {
+          "label": {
+            "hu": "Szín",
+            "en": "Color",
+            "de": "Farbe",
+            "sl": "Barva"
+          },
+          "value": "Celeste"
+        }
+      ]
     },
-    "image": "Pictures/IMG_2310.jpeg",
-    "specs": [
-      {
-        "label": {
-          "hu": "Modell",
-          "en": "Model",
-          "de": "Modell",
-          "sl": "Model"
-        },
-        "value": "Bianchi XR3 CV"
+    {
+      "name": {
+        "hu": "Gravel bringa",
+        "en": "Gravel bike",
+        "de": "Gravelbike",
+        "sl": "Gravel kolo"
       },
-      {
-        "label": {
-          "hu": "Váz",
-          "en": "Frame",
-          "de": "Rahmen",
-          "sl": "Okvir"
+      "image": "Pictures/551B0A51-7E79-4B41-8F1C-1A023DDD75A5.jpeg",
+      "specs": [
+        {
+          "label": {
+            "hu": "Modell",
+            "en": "Model",
+            "de": "Modell",
+            "sl": "Model"
+          },
+          "value": "Bianchi Impulso COMP"
         },
-        "value": "Full Carbon"
-      },
-      {
-        "label": {
-          "hu": "Technológia",
-          "en": "Technology",
-          "de": "Technologie",
-          "sl": "Tehnologija"
+        {
+          "label": {
+            "hu": "Váz",
+            "en": "Frame",
+            "de": "Rahmen",
+            "sl": "Okvir"
+          },
+          "value": "Full Carbon"
         },
-        "value": "Countervail (CV)"
-      },
-      {
-        "label": {
-          "hu": "Kerék",
-          "en": "Wheels",
-          "de": "Räder",
-          "sl": "Kolesa"
+        {
+          "label": {
+            "hu": "Technológia",
+            "en": "Technology",
+            "de": "Technologie",
+            "sl": "Tehnologija"
+          },
+          "value": "Shimano GRX 610"
         },
-        "value": "700c"
-      },
-      {
-        "label": {
-          "hu": "Szín",
-          "en": "Color",
-          "de": "Farbe",
-          "sl": "Barva"
+        {
+          "label": {
+            "hu": "Kerék",
+            "en": "Wheels",
+            "de": "Räder",
+            "sl": "Kolesa"
+          },
+          "value": "700c"
         },
-        "value": "Celeste"
-      }
-    ]
-  },
+        {
+          "label": {
+            "hu": "Szín",
+            "en": "Color",
+            "de": "Farbe",
+            "sl": "Barva"
+          },
+          "value": "Bronze Brown-Graphite"
+        }
+      ]
+    }
+  ],
   "gallery": {
     "images": []
   },

@@ -346,21 +346,11 @@
                 <button class="neon-btn mt-3 text-xs" onclick="addMotivationCard()">+ Kártya hozzáadása</button>
             </div>
 
-            <!-- Bike section -->
+            <!-- Bikes section -->
             <div class="glass-card p-5 mb-4">
-                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">🚴 KERÉKPÁR</h3>
-                <div class="grid gap-3 sm:grid-cols-2 mb-3">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Gép neve</label>
-                        <div id="bike-name-editor"></div>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Kép (fájlnév)</label>
-                        <input type="text" id="bike-image" class="neon-input">
-                    </div>
-                </div>
-                <div id="bike-specs-editor" class="space-y-2"></div>
-                <button class="neon-btn mt-3 text-xs" onclick="addBikeSpec()">+ Spec hozzáadása</button>
+                <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">🚴 KERÉKPÁROK</h3>
+                <div id="bikes-editor" class="space-y-4"></div>
+                <button class="neon-btn mt-3 text-xs" onclick="addBike()">+ Bringa hozzáadása</button>
             </div>
 
             <!-- Footer section -->
@@ -678,15 +668,22 @@ function collectFormData() {
         });
     });
 
-    // Bike
-    c.bike.name = collectField('bike.name');
-    c.bike.image = document.getElementById('bike-image').value;
-    c.bike.specs = [];
-    document.querySelectorAll('[data-spec-index]').forEach(specEl => {
-        const i = parseInt(specEl.dataset.specIndex);
-        c.bike.specs.push({
-            label: collectField(`spec[${i}].label`),
-            value: specEl.querySelector('.spec-value').value
+    // Bikes
+    c.bikes = [];
+    document.querySelectorAll('[data-bike-index]').forEach(bikeEl => {
+        const bi = parseInt(bikeEl.dataset.bikeIndex);
+        const specs = [];
+        bikeEl.querySelectorAll('[data-spec-index]').forEach(specEl => {
+            const si = parseInt(specEl.dataset.specIndex);
+            specs.push({
+                label: collectField(`spec[${bi}][${si}].label`),
+                value: specEl.querySelector('.spec-value').value
+            });
+        });
+        c.bikes.push({
+            name: collectField(`bike[${bi}].name`),
+            image: bikeEl.querySelector('.bike-image').value,
+            specs
         });
     });
 
@@ -788,10 +785,8 @@ function renderTextsEditor(c) {
     document.getElementById('motivation-quote-editor').innerHTML = renderField('motivation.quote', c.motivation.quote, { textarea: true, rows: 3 });
     renderMotivationCards(c.motivation.cards);
 
-    // Bike
-    document.getElementById('bike-name-editor').innerHTML = renderField('bike.name', c.bike.name);
-    document.getElementById('bike-image').value = c.bike.image;
-    renderBikeSpecs(c.bike.specs);
+    // Bikes
+    renderBikesEditor(c.bikes);
 
     // Footer
     document.getElementById('footer-madewith').value = c.footer.madeWith;
@@ -809,13 +804,38 @@ function renderMotivationCards(cards) {
     `).join('');
 }
 
-function renderBikeSpecs(specs) {
-    const container = document.getElementById('bike-specs-editor');
-    container.innerHTML = specs.map((s, i) => `
-        <div class="flex gap-2" data-spec-index="${i}">
-            <div style="width: 140px;">${renderField(`spec[${i}].label`, s.label, { placeholder: 'Label' })}</div>
+function renderBikesEditor(bikes) {
+    const container = document.getElementById('bikes-editor');
+    container.innerHTML = bikes.map((bike, bi) => `
+        <div class="glass-card p-4" data-bike-index="${bi}">
+            <div class="flex justify-between items-center mb-3">
+                <span class="font-mono text-xs text-gray-400">BRINGA #${bi + 1}</span>
+                <button class="text-red-400 text-xs hover:text-red-300" onclick="removeBike(${bi})">🗑 Bringa törlése</button>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2 mb-3">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Gép neve</label>
+                    ${renderField(`bike[${bi}].name`, bike.name)}
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Kép (fájlnév)</label>
+                    <input type="text" class="neon-input bike-image" value="${escHtml(bike.image)}">
+                </div>
+            </div>
+            <div class="space-y-2">
+                ${renderBikeSpecs(bi, bike.specs)}
+            </div>
+            <button class="neon-btn mt-3 text-xs" onclick="addBikeSpec(${bi})">+ Spec hozzáadása</button>
+        </div>
+    `).join('');
+}
+
+function renderBikeSpecs(bi, specs) {
+    return specs.map((s, si) => `
+        <div class="flex gap-2" data-spec-index="${si}">
+            <div style="width: 140px;">${renderField(`spec[${bi}][${si}].label`, s.label, { placeholder: 'Label' })}</div>
             <input type="text" class="neon-input spec-value flex-1" value="${escHtml(s.value)}" placeholder="Érték">
-            <button class="text-red-400 text-xs hover:text-red-300" onclick="removeBikeSpec(${i})">🗑</button>
+            <button class="text-red-400 text-xs hover:text-red-300" onclick="removeBikeSpec(${bi}, ${si})">🗑</button>
         </div>
     `).join('');
 }
@@ -881,16 +901,33 @@ function removeMotivationCard(index) {
     renderMotivationCards(state.content.motivation.cards);
 }
 
-function addBikeSpec() {
+function addBike() {
     collectFormData();
-    state.content.bike.specs.push({ label: 'Új spec', value: '' });
-    renderBikeSpecs(state.content.bike.specs);
+    state.content.bikes.push({
+        name: 'Új bringa',
+        image: '',
+        specs: [{ label: 'Modell', value: '' }]
+    });
+    renderBikesEditor(state.content.bikes);
 }
 
-function removeBikeSpec(index) {
+function removeBike(bikeIndex) {
+    if (!confirm('Biztosan törölni akarod ezt a bringát?')) return;
     collectFormData();
-    state.content.bike.specs.splice(index, 1);
-    renderBikeSpecs(state.content.bike.specs);
+    state.content.bikes.splice(bikeIndex, 1);
+    renderBikesEditor(state.content.bikes);
+}
+
+function addBikeSpec(bikeIndex) {
+    collectFormData();
+    state.content.bikes[bikeIndex].specs.push({ label: 'Új spec', value: '' });
+    renderBikesEditor(state.content.bikes);
+}
+
+function removeBikeSpec(bikeIndex, specIndex) {
+    collectFormData();
+    state.content.bikes[bikeIndex].specs.splice(specIndex, 1);
+    renderBikesEditor(state.content.bikes);
 }
 
 // ============================================

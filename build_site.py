@@ -342,8 +342,7 @@ def build_gallery(images, lang, ui_strings):
     return '\n'.join(lines)
 
 
-def build_bike(data, lang):
-    bike = data['bike']
+def build_one_bike(bike, lang):
     spec_lines = []
     for i, spec in enumerate(bike['specs']):
         is_last = (i == len(bike['specs']) - 1)
@@ -357,9 +356,7 @@ def build_bike(data, lang):
     specs_html = '\n'.join(spec_lines)
     bike_name = tr(bike['name'], lang)
 
-    return f'''            <div class="max-w-lg mx-auto">
-                <!-- {bike_name} -->
-                <div class="glass-card p-6 sm:p-8 neon-border reveal-left">
+    return f'''                <div class="glass-card p-6 sm:p-8 neon-border reveal-left">
                     <!-- Animált kerék SVG -->
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">{bike_name}</h3>
@@ -376,14 +373,22 @@ def build_bike(data, lang):
 
                     <!-- Kép -->
                     <div class="gallery-img h-48 mb-6">
-{picture_element(bike['image'], 'medium', 'Botond országúti kerékpárja', 'loading="lazy"', indent=24)}
+{picture_element(bike['image'], 'medium', bike_name, 'loading="lazy"', indent=24)}
                     </div>
 
                     <div class="space-y-3">
 {specs_html}
                     </div>
-                </div>
+                </div>'''
 
+
+def build_bike(data, lang):
+    bikes = data['bikes']
+    cards = [build_one_bike(bike, lang) for bike in bikes]
+    grid_class = 'grid-cols-1' if len(bikes) < 2 else 'grid-cols-1 md:grid-cols-2'
+
+    return f'''            <div class="max-w-4xl mx-auto grid {grid_class} gap-6">
+{chr(10).join(cards)}
             </div>'''
 
 
