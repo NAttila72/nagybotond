@@ -1,0 +1,98 @@
+{
+  "htmlLang": {"hu": "hu", "en": "en", "de": "de", "sl": "sl"},
+  "ogLocale": {"hu": "hu_HU", "en": "en_US", "de": "de_DE", "sl": "sl_SI"},
+  "meta": {
+    "description": {
+      "hu": "Nagy Botond, 11 éves országúti és pályakerékpáros versenyző profilja. Kőbánya Cycling Team. Eredmények, statisztikák, galéria.",
+      "en": "Botond Nagy, 11-year-old road and track cycling racer profile. Kőbánya Cycling Team. Achievements, stats, gallery.",
+      "de": "Profil von Botond Nagy, 11-jähriger Straßen- und Bahnradsportler. Kőbánya Cycling Team. Erfolge, Statistiken, Galerie.",
+      "sl": "Profil Botonda Nagyja, 11-letnega cestnega in stezno kolesarskega tekmovalca. Kőbánya Cycling Team. Dosežki, statistika, galerija."
+    },
+    "shareDescription": {
+      "hu": "Nagy Botond, 11 éves országúti és pályakerékpáros versenyző. Kőbánya Cycling Team.",
+      "en": "Botond Nagy, 11-year-old road and track cycling racer. Kőbánya Cycling Team.",
+      "de": "Botond Nagy, 11-jähriger Straßen- und Bahnradsportler. Kőbánya Cycling Team.",
+      "sl": "Botond Nagy, 11-letni cestni in stezni kolesarski tekmovalec. Kőbánya Cycling Team."
+    }
+  },
+  "nav": {
+    "achievements": {"hu": "Eredmények", "en": "Achievements", "de": "Erfolge", "sl": "Dosežki"},
+    "gallery": {"hu": "Galéria", "en": "Gallery", "de": "Galerie", "sl": "Galerija"},
+    "equipment": {"hu": "Felszerelés", "en": "Equipment", "de": "Ausrüstung", "sl": "Oprema"}
+  },
+  "aria": {
+    "mobileMenu": {"hu": "Menü megnyitása", "en": "Open menu", "de": "Menü öffnen", "sl": "Odpri meni"},
+    "scrollDown": {"hu": "Tovább görgetés", "en": "Scroll down", "de": "Nach unten scrollen", "sl": "Pomakni se navzdol"},
+    "lightboxDialog": {"hu": "Képnagyító", "en": "Image viewer", "de": "Bildansicht", "sl": "Pregledovalnik slik"},
+    "lightboxClose": {"hu": "Bezárás", "en": "Close", "de": "Schließen", "sl": "Zapri"},
+    "lightboxPrev": {"hu": "Előző kép", "en": "Previous image", "de": "Vorheriges Bild", "sl": "Prejšnja slika"},
+    "lightboxNext": {"hu": "Következő kép", "en": "Next image", "de": "Nächstes Bild", "sl": "Naslednja slika"},
+    "gameButton": {"hu": "Kattints a játékhoz", "en": "Click to play the game", "de": "Klicken, um das Spiel zu starten", "sl": "Klikni za igro"},
+    "footerEasterEgg": {"hu": "Kattints a meglepetésért", "en": "Click for a surprise", "de": "Klicken für eine Überraschung", "sl": "Klikni za presenečenje"}
+  },
+  "sections": {
+    "statsEyebrow": {"hu": "// Statisztikák", "en": "// Stats", "de": "// Statistiken", "sl": "// Statistika"},
+    "achievementsEyebrow": {"hu": "// Eredmények", "en": "// Achievements", "de": "// Erfolge", "sl": "// Dosežki"},
+    "galleryEyebrow": {"hu": "// Galéria", "en": "// Gallery", "de": "// Galerie", "sl": "// Galerija"},
+    "equipmentEyebrow": {"hu": "// Felszerelés", "en": "// Equipment", "de": "// Ausrüstung", "sl": "// Oprema"}
+  },
+  "gallery": {
+    "empty": {
+      "hu": "Nincs kép a galériában.",
+      "en": "No images in the gallery yet.",
+      "de": "Noch keine Bilder in der Galerie.",
+      "sl": "V galeriji še ni slik."
+    }
+  },
+  "game": {
+    "instructions": {
+      "hu": "Kattints minél gyorsabban 10 másodpercig! Milyen gyors vagy?",
+      "en": "Click as fast as you can for 10 seconds! How fast are you?",
+      "de": "Klicke 10 Sekunden lang so schnell du kannst! Wie schnell bist du?",
+      "sl": "Klikaj čim hitreje 10 sekund! Kako hiter si?"
+    },
+    "secondsLabel": {"hu": "Másodperc", "en": "Seconds", "de": "Sekunden", "sl": "Sekund"},
+    "clicksLabel": {"hu": "Kattintás", "en": "Clicks", "de": "Klicks", "sl": "Klikov"},
+    "resultLabel": {"hu": "Eredmény:", "en": "Result:", "de": "Ergebnis:", "sl": "Rezultat:"},
+    "startLabel": {"hu": "START ⚡", "en": "START ⚡", "de": "START ⚡", "sl": "START ⚡"},
+    "clickingLabel": {"hu": "KATTINTS! 🔥", "en": "CLICK! 🔥", "de": "KLICK! 🔥", "sl": "KLIKNI! 🔥"},
+    "endLabel": {"hu": "VÉGE! 🏁", "en": "DONE! 🏁", "de": "ENDE! 🏁", "sl": "KONEC! 🏁"},
+    "retryLabel": {"hu": "ÚJRA ↺", "en": "AGAIN ↺", "de": "NOCHMAL ↺", "sl": "ŠE ENKRAT ↺"},
+    "rankBeginner": {
+      "hu": "🐌 Kezdő – Még gyakorolj!",
+      "en": "🐌 Beginner – Keep practicing!",
+      "de": "🐌 Anfänger – Übe noch etwas!",
+      "sl": "🐌 Začetnik – Še malo vadi!"
+    },
+    "rankAmateur": {
+      "hu": "🚶 Amatőr – Nem rossz!",
+      "en": "🚶 Amateur – Not bad!",
+      "de": "🚶 Amateur – Nicht schlecht!",
+      "sl": "🚶 Amater – Ni slabo!"
+    },
+    "rankPro": {
+      "hu": "🚴 Profi – Jó tempó!",
+      "en": "🚴 Pro – Great pace!",
+      "de": "🚴 Profi – Gutes Tempo!",
+      "sl": "🚴 Profi – Odličen tempo!"
+    },
+    "rankChampion": {
+      "hu": "⚡ Bajnok – Szuper gyors!",
+      "en": "⚡ Champion – Super fast!",
+      "de": "⚡ Champion – Super schnell!",
+      "sl": "⚡ Prvak – Super hitro!"
+    },
+    "rankLegend": {
+      "hu": "🏆 LEGENDA – Hihetetlen! 🔥",
+      "en": "🏆 LEGEND – Incredible! 🔥",
+      "de": "🏆 LEGENDE – Unglaublich! 🔥",
+      "sl": "🏆 LEGENDA – Neverjetno! 🔥"
+    }
+  },
+  "languageSwitcher": {
+    "hu": {"hu": "Magyar", "en": "Hungarian", "de": "Ungarisch", "sl": "Madžarščina"},
+    "en": {"hu": "Angol", "en": "English", "de": "Englisch", "sl": "Angleščina"},
+    "de": {"hu": "Német", "en": "German", "de": "Deutsch", "sl": "Nemščina"},
+    "sl": {"hu": "Szlovén", "en": "Slovenian", "de": "Slowenisch", "sl": "Slovenščina"}
+  }
+}
