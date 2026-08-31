@@ -1024,10 +1024,18 @@ function isTranslatableValue(v) {
     return v !== null && typeof v === 'object' && !Array.isArray(v);
 }
 
+// Shared attribute fragments for both renderTranslatableInput and
+// renderField's plain-value branch, so the two stay in sync.
+function buildFieldAttrs(opts) {
+    return {
+        type: opts.textarea ? '' : ' type="text"',
+        rows: opts.textarea ? ` rows="${opts.rows || 2}"` : '',
+        placeholder: opts.placeholder ? ` placeholder="${escHtml(opts.placeholder)}"` : ''
+    };
+}
+
 function renderTranslatableInput(fieldPath, valueObj, opts = {}) {
-    const type = opts.textarea ? '' : ' type="text"';
-    const rows = opts.textarea ? ` rows="${opts.rows || 2}"` : '';
-    const placeholder = opts.placeholder ? ` placeholder="${escHtml(opts.placeholder)}"` : '';
+    const { type, rows, placeholder } = buildFieldAttrs(opts);
     const tabs = EDITOR_LANGS.map((lang, idx) => `
         <button type="button" class="lang-tab${idx === 0 ? ' active' : ''}" data-lang="${lang}" data-field="${fieldPath}">${lang.toUpperCase()}</button>
     `).join('');
@@ -1052,9 +1060,7 @@ function renderField(fieldPath, value, opts = {}) {
     if (isTranslatableValue(value)) {
         return renderTranslatableInput(fieldPath, value, opts);
     }
-    const type = opts.textarea ? '' : ' type="text"';
-    const rows = opts.textarea ? ` rows="${opts.rows || 2}"` : '';
-    const placeholder = opts.placeholder ? ` placeholder="${escHtml(opts.placeholder)}"` : '';
+    const { type, rows, placeholder } = buildFieldAttrs(opts);
     const val = escHtml(value || '');
     return opts.textarea
         ? `<textarea class="neon-input plain-field" data-field="${fieldPath}"${placeholder}${rows}>${val}</textarea>`
