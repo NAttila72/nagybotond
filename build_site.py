@@ -89,8 +89,12 @@ def build_language_switcher(current_lang, ui_strings):
             f'<a href="{lang_url(lang)}" class="text-xs font-mono tracking-wider hover:text-neon-blue '
             f'transition-colors{active}">{flags[lang]} {labels[lang]}</a>'
         )
+    # No border/margin here — the desktop nav and mobile menu each wrap
+    # this in their own separator styling (see template.html), since a
+    # left-border-and-margin only makes sense next to a horizontal sibling
+    # (desktop), not above a vertically stacked list (mobile).
     return (
-        '<div class="flex items-center gap-3 ml-4 pl-4 border-l border-white/10">'
+        '<div class="flex items-center gap-3">'
         + ''.join(items) + '</div>'
     )
 
@@ -121,9 +125,9 @@ def get_optimized_path(original_path, size, fmt):
     fname = os.path.basename(original_path)
     stem = os.path.splitext(fname)[0]
     if fmt == 'webp':
-        return f'Pictures/optimized/{size}-webp/{stem}.webp'
+        return f'/Pictures/optimized/{size}-webp/{stem}.webp'
     else:
-        return f'Pictures/optimized/{size}/{stem}.jpeg'
+        return f'/Pictures/optimized/{size}/{stem}.jpeg'
 
 
 def picture_element(original_path, size, alt, extra_attrs='', indent=20, data_full=False):
@@ -344,7 +348,7 @@ def build_bike(data, lang):
     for i, spec in enumerate(bike['specs']):
         is_last = (i == len(bike['specs']) - 1)
         border = ' border-b border-white/5' if not is_last else ''
-        color = 'text-neon-blue font-medium' if spec['label'] == 'Szín' else 'text-white font-medium'
+        color = 'text-neon-blue font-medium' if tr(spec['label'], 'hu') == 'Szín' else 'text-white font-medium'
         spec_lines.append(f'''                        <div class="flex justify-between items-center py-2{border}">
                             <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">{tr(spec['label'], lang)}</span>
                             <span class="{color}">{spec['value']}</span>
@@ -451,7 +455,7 @@ def build_footer(data, lang):
 
     return f'''            <!-- Logo -->
             <div class="mb-6">
-                <img src="logos/nb-logo-primary-dark.svg" alt="NB Logo" class="h-[88px] mx-auto">
+                <img src="/logos/nb-logo-primary-dark.svg" alt="NB Logo" class="h-[88px] mx-auto">
             </div>
 
             <!-- Social linkek -->

@@ -13,7 +13,7 @@
         gtag('js', new Date());
         gtag('config', 'G-1FEF0M40QQ');
     </script>
-    <link rel="icon" type="image/svg+xml" href="logos/nb-favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/logos/nb-favicon.svg">
 
     <!-- SEO Meta -->
     <meta name="description" content="{{i18n:meta.description}}">
@@ -857,7 +857,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
             <a href="#hero">
-                <img src="logos/nb-logo-inline-navbar.svg" alt="NB Logo" class="h-8">
+                <img src="/logos/nb-logo-inline-navbar.svg" alt="NB Logo" class="h-8">
             </a>
             <div class="hidden md:flex items-center gap-6">
                 <a href="#stats" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Stats</a>
@@ -865,7 +865,7 @@
                 <a href="#gallery" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">{{i18n:nav.gallery}}</a>
                 <a href="#bikes" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">{{i18n:nav.equipment}}</a>
                 <a href="#game" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Game</a>
-                {{LANGUAGE_SWITCHER}}
+                <div class="ml-4 pl-4 border-l border-white/10">{{LANGUAGE_SWITCHER}}</div>
             </div>
             <!-- Mobil menü gomb -->
             <button id="mobile-menu-btn" class="md:hidden text-neon-blue p-2" aria-label="{{i18n:aria.mobileMenu}}">
