@@ -14,6 +14,85 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 INDEX_PATH = os.path.join(SCRIPT_DIR, 'index.html')
 JSON_PATH = os.path.join(SCRIPT_DIR, 'data', 'content.json')
 PICTURES_DIR = os.path.join(SCRIPT_DIR, 'Pictures')
+TEMPLATE_PATH = os.path.join(SCRIPT_DIR, 'template.html')
+UI_STRINGS_PATH = os.path.join(SCRIPT_DIR, 'data', 'ui-strings.json')
+BASE_URL = 'https://botondnagy.eu'
+
+LANGUAGES = ['hu', 'en', 'de', 'sl']
+DEFAULT_LANG = 'hu'
+
+
+def load_ui_strings():
+    with open(UI_STRINGS_PATH, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def tr(field, lang):
+    """Return the lang-specific value of a translatable field.
+    Falls back to DEFAULT_LANG if the field is a dict but lacks `lang`.
+    Non-dict fields (icons, paths, colors, proper nouns) are returned as-is.
+    """
+    if isinstance(field, dict) and set(field.keys()) <= {'hu', 'en', 'de', 'sl'}:
+        return field.get(lang) or field.get(DEFAULT_LANG, '')
+    return field
+
+
+def _is_leaf_translation(value):
+    """True for a {'hu':..,'en':..,'de':..,'sl':..} leaf whose values are the
+    actual translated strings (as opposed to e.g. languageSwitcher, whose
+    top-level keys are also hu/en/de/sl but whose values are nested dicts)."""
+    return (
+        isinstance(value, dict)
+        and set(value.keys()) <= {'hu', 'en', 'de', 'sl'}
+        and all(isinstance(v, str) for v in value.values())
+    )
+
+
+def flatten_ui_strings(ui_strings, lang, prefix=''):
+    """Flatten nested ui-strings dict into {'a.b.c': 'translated value'} for one lang."""
+    flat = {}
+    for key, value in ui_strings.items():
+        full_key = f'{prefix}.{key}' if prefix else key
+        if _is_leaf_translation(value):
+            flat[full_key] = value.get(lang) or value.get(DEFAULT_LANG, '')
+        elif isinstance(value, dict):
+            flat.update(flatten_ui_strings(value, lang, full_key))
+    return flat
+
+
+def apply_ui_strings(html, lang, ui_strings):
+    flat = flatten_ui_strings(ui_strings, lang)
+    for key, value in flat.items():
+        html = html.replace('{{i18n:' + key + '}}', value)
+    return html
+
+
+def lang_url(lang):
+    return f'{BASE_URL}/' if lang == DEFAULT_LANG else f'{BASE_URL}/{lang}/'
+
+
+def build_hreflang_tags():
+    lines = []
+    for lang in LANGUAGES:
+        lines.append(f'    <link rel="alternate" hreflang="{lang}" href="{lang_url(lang)}">')
+    lines.append(f'    <link rel="alternate" hreflang="x-default" href="{lang_url(DEFAULT_LANG)}">')
+    return '\n'.join(lines)
+
+
+def build_language_switcher(current_lang, ui_strings):
+    labels = {l: ui_strings['languageSwitcher'][l][l] for l in LANGUAGES}
+    flags = {'hu': '🇭🇺', 'en': '🇬🇧', 'de': '🇩🇪', 'sl': '🇸🇮'}
+    items = []
+    for lang in LANGUAGES:
+        active = ' text-neon-blue' if lang == current_lang else ' text-gray-400'
+        items.append(
+            f'<a href="{lang_url(lang)}" class="text-xs font-mono tracking-wider hover:text-neon-blue '
+            f'transition-colors{active}">{flags[lang]} {labels[lang]}</a>'
+        )
+    return (
+        '<div class="flex items-center gap-3 ml-4 pl-4 border-l border-white/10">'
+        + ''.join(items) + '</div>'
+    )
 
 
 def load_json():
@@ -70,7 +149,7 @@ def picture_element(original_path, size, alt, extra_attrs='', indent=20, data_fu
     )
 
 
-def build_hero(data):
+def build_hero(data, lang):
     hero = data['hero']
     return f'''            <!-- Fő név -->
             <h1 class="hero-content font-orbitron text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none mb-4 neon-text neon-glow-pulse text-white">
@@ -80,7 +159,7 @@ def build_hero(data):
             <!-- Alcím - typewriter effekt -->
             <div class="hero-content-delay mb-8 h-8 flex items-center justify-center">
                 <span id="typewriter-text" class="typewriter font-mono text-sm sm:text-base md:text-lg text-gray-300 tracking-wider">
-                    {hero['subtitle']}
+                    {tr(hero['subtitle'], lang)}
                 </span>
             </div>
 
@@ -100,7 +179,7 @@ def build_hero(data):
             </div>'''
 
 
-def build_stats(data):
+def build_stats(data, lang):
     stats = data['stats']
     cards = []
     for i, stat in enumerate(stats):
@@ -116,8 +195,8 @@ def build_stats(data):
 
         cards.append(f'''                <div class="glass-card p-5 sm:p-7 text-center reveal" style="transition-delay: {delay}s">
                     <div class="text-2xl mb-2">{stat['icon']}</div>
-                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">{stat['label']}</div>
-                    <div class="stat-value {size_class} font-bold {color_class}"{data_count}>{stat['value']}</div>
+                    <div class="text-xs font-mono text-gray-400 tracking-wider uppercase mb-2">{tr(stat['label'], lang)}</div>
+                    <div class="stat-value {size_class} font-bold {color_class}"{data_count}>{tr(stat['value'], lang)}</div>
                 </div>''')
 
     return '''            <!-- Stats kártyák grid -->
@@ -126,7 +205,7 @@ def build_stats(data):
             </div>'''
 
 
-def build_achievements(data):
+def build_achievements(data, lang):
     ach = data['achievements']
     parts = []
 
@@ -134,20 +213,21 @@ def build_achievements(data):
     parts.append(f'''            <!-- Megjegyzés -->
             <div class="text-center mb-12 reveal">
                 <p class="text-gray-400 text-sm font-body max-w-2xl mx-auto">
-                    {ach['intro']}
+                    {tr(ach['intro'], lang)}
                 </p>
             </div>''')
 
     for ci, cat in enumerate(ach['categories']):
         is_last_cat = (ci == len(ach['categories']) - 1)
         mb = 'mb-16' if not is_last_cat else ''
+        cat_name = tr(cat['name'], lang)
 
         parts.append(f'''
-            <!-- ===== {cat['name'].upper()} EREDMÉNYEK ===== -->
+            <!-- ===== {cat_name.upper()} EREDMÉNYEK ===== -->
             <div class="{mb}">
                 <div class="flex items-center gap-3 mb-8 reveal">
                     <span class="text-2xl">{cat['icon']}</span>
-                    <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">{cat['name']}</h3>
+                    <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">{cat_name}</h3>
                 </div>
 
                 <div class="relative">
@@ -162,10 +242,10 @@ def build_achievements(data):
 
             # Build card inner content
             inner_lines = []
-            inner_lines.append(f'                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">{result["ageGroup"]}</div>')
+            inner_lines.append(f'                                <div class="font-mono text-xs text-neon-green tracking-wider mb-1">{tr(result["ageGroup"], lang)}</div>')
             inner_lines.append(f'                                <h3 class="font-orbitron text-base sm:text-lg font-bold text-white mb-1">{result["title"]}</h3>')
 
-            desc = result.get('description', '')
+            desc = tr(result.get('description', ''), lang)
             if desc and 'subResults' not in result:
                 inner_lines.append(f'                                <p class="text-gray-400 text-xs mb-2">{desc}</p>')
 
@@ -175,16 +255,18 @@ def build_achievements(data):
                 inner_lines.append('                                <div class="space-y-2">')
                 for sub in result['subResults']:
                     justify = ' md:justify-end' if side == 'left' else ''
+                    sub_event = tr(sub['event'], lang)
+                    sub_place = tr(sub['place'], lang)
                     if sub.get('isTotal'):
                         color = sub.get('totalColor', 'text-neon-blue')
                         inner_lines.append(f'                                    <div class="flex items-center gap-2 text-sm border-t border-white/10 pt-2 mt-2{justify}">')
                         inner_lines.append(f'                                        <span>{sub["medal"]}</span>')
-                        inner_lines.append(f'                                        <span class="{color} font-bold">{sub["event"]} – {sub["place"]}</span>')
+                        inner_lines.append(f'                                        <span class="{color} font-bold">{sub_event} – {sub_place}</span>')
                         inner_lines.append(f'                                    </div>')
                     else:
                         inner_lines.append(f'                                    <div class="flex items-center gap-2 text-sm{justify}">')
                         inner_lines.append(f'                                        <span>{sub["medal"]}</span>')
-                        inner_lines.append(f'                                        <span class="text-gray-300"><span class="text-white font-medium">{sub["event"]}</span> – {sub["place"]}</span>')
+                        inner_lines.append(f'                                        <span class="text-gray-300"><span class="text-white font-medium">{sub_event}</span> – {sub_place}</span>')
                         inner_lines.append(f'                                    </div>')
                 inner_lines.append('                                </div>')
             else:
@@ -192,7 +274,7 @@ def build_achievements(data):
                 place_color = result.get('placeColor', 'text-gray-300')
                 inner_lines.append(f'                                <div class="flex items-center gap-2{justify}">')
                 inner_lines.append(f'                                    <span class="text-2xl">{result["medal"]}</span>')
-                inner_lines.append(f'                                    <span class="{place_color} font-bold">{result["place"]}</span>')
+                inner_lines.append(f'                                    <span class="{place_color} font-bold">{tr(result["place"], lang)}</span>')
                 inner_lines.append(f'                                </div>')
 
             inner_html = '\n'.join(inner_lines)
@@ -229,10 +311,11 @@ def build_achievements(data):
     return '\n'.join(parts)
 
 
-def build_gallery(images):
+def build_gallery(images, lang, ui_strings):
     """Build gallery HTML from image list"""
     if not images:
-        return '            <p class="text-gray-400 text-center">Nincs kép a galériában.</p>'
+        empty_text = ui_strings['gallery']['empty'].get(lang) or ui_strings['gallery']['empty']['hu']
+        return f'            <p class="text-gray-400 text-center">{empty_text}</p>'
 
     grid_images = images[:5]
     rest_images = images[5:]
@@ -255,7 +338,7 @@ def build_gallery(images):
     return '\n'.join(lines)
 
 
-def build_bike(data):
+def build_bike(data, lang):
     bike = data['bike']
     spec_lines = []
     for i, spec in enumerate(bike['specs']):
@@ -263,18 +346,19 @@ def build_bike(data):
         border = ' border-b border-white/5' if not is_last else ''
         color = 'text-neon-blue font-medium' if spec['label'] == 'Szín' else 'text-white font-medium'
         spec_lines.append(f'''                        <div class="flex justify-between items-center py-2{border}">
-                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">{spec['label']}</span>
+                            <span class="font-mono text-xs text-gray-400 uppercase tracking-wider">{tr(spec['label'], lang)}</span>
                             <span class="{color}">{spec['value']}</span>
                         </div>''')
 
     specs_html = '\n'.join(spec_lines)
+    bike_name = tr(bike['name'], lang)
 
     return f'''            <div class="max-w-lg mx-auto">
-                <!-- {bike['name']} -->
+                <!-- {bike_name} -->
                 <div class="glass-card p-6 sm:p-8 neon-border reveal-left">
                     <!-- Animált kerék SVG -->
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">{bike['name']}</h3>
+                        <h3 class="font-orbitron text-xl sm:text-2xl font-bold text-white">{bike_name}</h3>
                         <svg width="48" height="48" viewBox="0 0 48 48" class="wheel-spin">
                             <circle cx="24" cy="24" r="20" stroke="#00D4FF" stroke-width="2" fill="none"/>
                             <circle cx="24" cy="24" r="16" stroke="#00D4FF" stroke-width="0.5" fill="none" opacity="0.3"/>
@@ -299,7 +383,7 @@ def build_bike(data):
             </div>'''
 
 
-def build_motivation(data):
+def build_motivation(data, lang):
     mot = data['motivation']
 
     cards_lines = []
@@ -307,7 +391,7 @@ def build_motivation(data):
         delay = (i + 1) * 0.1
         cards_lines.append(f'''                <div class="glass-card p-5 text-center reveal" style="transition-delay: {delay}s">
                     <div class="text-3xl mb-3">{card['icon']}</div>
-                    <p class="text-gray-300 text-sm leading-relaxed">{card['text']}</p>
+                    <p class="text-gray-300 text-sm leading-relaxed">{tr(card['text'], lang)}</p>
                 </div>''')
 
     cards_html = '\n'.join(cards_lines)
@@ -326,7 +410,7 @@ def build_motivation(data):
                     <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609L9.978 5.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H0z"/>
                 </svg>
                 <blockquote class="font-orbitron text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-relaxed italic">
-                    {mot['quote']}
+                    {tr(mot['quote'], lang)}
                 </blockquote>
             </div>
 
@@ -341,7 +425,7 @@ def build_motivation(data):
             </div>'''
 
 
-def build_footer(data):
+def build_footer(data, lang):
     footer = data['footer']
 
     social_lines = []
@@ -377,24 +461,24 @@ def build_footer(data):
 
             <!-- Easter egg szöveg - kattintásra konfetti -->
             <p class="text-gray-500 text-sm font-mono cursor-pointer hover:text-gray-300 transition-colors" id="footer-easter-egg" role="button" tabindex="0" aria-label="Kattints a meglepetésért">
-                {footer['madeWith']}
+                {tr(footer['madeWith'], lang)}
             </p>
             <p class="text-gray-600 text-xs font-mono mt-2">
-                &copy; {footer['copyright']}
+                &copy; {tr(footer['copyright'], lang)}
             </p>'''
 
 
-def replace_sections(html, data, images):
+def replace_sections(html, data, images, lang, ui_strings):
     """Replace all SECTION-START/SECTION-END blocks"""
 
     builders = {
-        'hero': lambda: build_hero(data),
-        'stats': lambda: build_stats(data),
-        'achievements': lambda: build_achievements(data),
-        'gallery': lambda: build_gallery(images),
-        'bike': lambda: build_bike(data),
-        'motivation': lambda: build_motivation(data),
-        'footer': lambda: build_footer(data),
+        'hero': lambda: build_hero(data, lang),
+        'stats': lambda: build_stats(data, lang),
+        'achievements': lambda: build_achievements(data, lang),
+        'gallery': lambda: build_gallery(images, lang, ui_strings),
+        'bike': lambda: build_bike(data, lang),
+        'motivation': lambda: build_motivation(data, lang),
+        'footer': lambda: build_footer(data, lang),
     }
 
     for section_name, builder in builders.items():
@@ -417,35 +501,46 @@ def replace_sections(html, data, images):
 
 
 def main():
-    print('🔧 Building site from JSON...')
-    print(f'  📄 Template: {INDEX_PATH}')
-    print(f'  📦 Data: {JSON_PATH}')
+    print('🔧 Building multilingual site from JSON...')
 
     if not os.path.exists(JSON_PATH):
         print(f'  ❌ Error: {JSON_PATH} not found!')
         sys.exit(1)
-
-    if not os.path.exists(INDEX_PATH):
-        print(f'  ❌ Error: {INDEX_PATH} not found!')
+    if not os.path.exists(TEMPLATE_PATH):
+        print(f'  ❌ Error: {TEMPLATE_PATH} not found!')
         sys.exit(1)
 
-    # Load data
     data = load_json()
+    ui_strings = load_ui_strings()
     images = discover_images()
     print(f'  📸 Found {len(images)} images in Pictures/')
 
-    # Read template
-    with open(INDEX_PATH, 'r', encoding='utf-8') as f:
-        html = f.read()
+    with open(TEMPLATE_PATH, 'r', encoding='utf-8') as f:
+        template_html = f.read()
 
-    # Replace sections
-    html = replace_sections(html, data, images)
+    hreflang_tags = build_hreflang_tags()
 
-    # Write output
-    with open(INDEX_PATH, 'w', encoding='utf-8') as f:
-        f.write(html)
+    for lang in LANGUAGES:
+        print(f'  🌐 Building [{lang}]...')
+        html = template_html
+        html = replace_sections(html, data, images, lang, ui_strings)
+        html = html.replace('{{HREFLANG_TAGS}}', hreflang_tags)
+        html = html.replace('{{CANONICAL_URL}}', lang_url(lang))
+        html = html.replace('{{LANGUAGE_SWITCHER}}', build_language_switcher(lang, ui_strings))
+        html = apply_ui_strings(html, lang, ui_strings)
 
-    print(f'  ✅ Done! index.html updated ({len(html)} chars)')
+        if lang == DEFAULT_LANG:
+            out_path = INDEX_PATH
+        else:
+            out_dir = os.path.join(SCRIPT_DIR, lang)
+            os.makedirs(out_dir, exist_ok=True)
+            out_path = os.path.join(out_dir, 'index.html')
+
+        with open(out_path, 'w', encoding='utf-8') as f:
+            f.write(html)
+        print(f'    ✅ Wrote {os.path.relpath(out_path, SCRIPT_DIR)} ({len(html)} chars)')
+
+    print('  ✅ Done!')
 
 
 if __name__ == '__main__':
