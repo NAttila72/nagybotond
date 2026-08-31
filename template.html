@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="{{i18n:htmlLang}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,24 +16,25 @@
     <link rel="icon" type="image/svg+xml" href="logos/nb-favicon.svg">
 
     <!-- SEO Meta -->
-    <meta name="description" content="Nagy Botond, 11 éves országúti és pályakerékpáros versenyző profilja. Kőbánya Cycling Team. Eredmények, statisztikák, galéria.">
+    <meta name="description" content="{{i18n:meta.description}}">
     <meta name="keywords" content="Nagy Botond, kerékpár, cycling, Kőbánya Cycling Team, országúti kerékpár, pályakerékpár, U11, versenyző">
     <meta name="author" content="Nagy Botond">
-    <link rel="canonical" href="https://botondnagy.eu/">
+    <link rel="canonical" href="{{CANONICAL_URL}}">
+    {{HREFLANG_TAGS}}
 
     <!-- Open Graph (Facebook, LinkedIn) -->
     <meta property="og:title" content="Nagy Botond | Rider Profile">
-    <meta property="og:description" content="Nagy Botond, 11 éves országúti és pályakerékpáros versenyző. Kőbánya Cycling Team.">
+    <meta property="og:description" content="{{i18n:meta.shareDescription}}">
     <meta property="og:image" content="https://botondnagy.eu/Pictures/optimized/medium/IMG_1952.jpeg">
-    <meta property="og:url" content="https://botondnagy.eu/">
+    <meta property="og:url" content="{{CANONICAL_URL}}">
     <meta property="og:type" content="profile">
-    <meta property="og:locale" content="hu_HU">
+    <meta property="og:locale" content="{{i18n:ogLocale}}">
     <meta property="og:site_name" content="Nagy Botond - Rider Profile">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Nagy Botond | Rider Profile">
-    <meta name="twitter:description" content="Nagy Botond, 11 éves országúti és pályakerékpáros versenyző. Kőbánya Cycling Team.">
+    <meta name="twitter:description" content="{{i18n:meta.shareDescription}}">
     <meta name="twitter:image" content="https://botondnagy.eu/Pictures/optimized/medium/IMG_1952.jpeg">
 
     <!-- Structured Data (JSON-LD) -->
@@ -840,11 +841,11 @@
     <!-- ============================================
          LIGHTBOX OVERLAY
          ============================================ -->
-    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Képnagyító">
+    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="{{i18n:aria.lightboxDialog}}">
         <div class="lightbox-content" id="lightbox-content">
-            <button class="lightbox-close" id="lightbox-close" aria-label="Bezárás">✕</button>
-            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Előző kép">‹</button>
-            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Következő kép">›</button>
+            <button class="lightbox-close" id="lightbox-close" aria-label="{{i18n:aria.lightboxClose}}">✕</button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="{{i18n:aria.lightboxPrev}}">‹</button>
+            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="{{i18n:aria.lightboxNext}}">›</button>
             <img id="lightbox-img" src="" alt="Nagyított kép">
             <div class="lightbox-counter" id="lightbox-counter"></div>
         </div>
@@ -860,13 +861,14 @@
             </a>
             <div class="hidden md:flex items-center gap-6">
                 <a href="#stats" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Stats</a>
-                <a href="#achievements" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Eredmények</a>
-                <a href="#gallery" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Galéria</a>
-                <a href="#bikes" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Felszerelés</a>
+                <a href="#achievements" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">{{i18n:nav.achievements}}</a>
+                <a href="#gallery" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">{{i18n:nav.gallery}}</a>
+                <a href="#bikes" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">{{i18n:nav.equipment}}</a>
                 <a href="#game" class="text-xs font-mono tracking-wider text-gray-400 hover:text-neon-blue transition-colors uppercase">Game</a>
+                {{LANGUAGE_SWITCHER}}
             </div>
             <!-- Mobil menü gomb -->
-            <button id="mobile-menu-btn" class="md:hidden text-neon-blue p-2" aria-label="Menü megnyitása">
+            <button id="mobile-menu-btn" class="md:hidden text-neon-blue p-2" aria-label="{{i18n:aria.mobileMenu}}">
                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M3 12h18M3 18h18"/>
                 </svg>
@@ -876,9 +878,9 @@
         <div id="mobile-menu" class="md:hidden hidden bg-dark-bg/95 backdrop-blur-lg border-t border-neon-blue/10">
             <div class="px-4 py-4 flex flex-col gap-4">
                 <a href="#stats" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Stats</a>
-                <a href="#achievements" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Eredmények</a>
-                <a href="#gallery" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Galéria</a>
-                <a href="#bikes" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Felszerelés</a>
+                <a href="#achievements" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">{{i18n:nav.achievements}}</a>
+                <a href="#gallery" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">{{i18n:nav.gallery}}</a>
+                <a href="#bikes" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">{{i18n:nav.equipment}}</a>
                 <a href="#game" class="text-sm font-mono text-gray-400 hover:text-neon-blue transition-colors uppercase mobile-link">Game</a>
             </div>
         </div>
@@ -958,7 +960,7 @@
 
         <!-- Bouncing scroll nyíl -->
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 bounce-arrow z-10">
-            <a href="#stats" aria-label="Tovább görgetés">
+            <a href="#stats" aria-label="{{i18n:aria.scrollDown}}">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2" stroke-linecap="round">
                     <path d="M6 9l6 6 6-6"/>
                 </svg>
@@ -973,7 +975,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <!-- Szekció cím -->
             <div class="text-center mb-14 reveal">
-                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Statisztikák</span>
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">{{i18n:sections.statsEyebrow}}</span>
                 <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
                     RIDER <span class="text-neon-blue">STATS</span>
                 </h2>
@@ -1029,7 +1031,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6">
             <!-- Szekció cím -->
             <div class="text-center mb-16 reveal">
-                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Eredmények</span>
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">{{i18n:sections.achievementsEyebrow}}</span>
                 <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
                     ACHIEVE<span class="text-neon-blue">MENTS</span>
                 </h2>
@@ -1222,7 +1224,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <!-- Szekció cím -->
             <div class="text-center mb-14 reveal">
-                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Galéria</span>
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">{{i18n:sections.galleryEyebrow}}</span>
                 <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
                     ACTION <span class="text-neon-blue">SHOTS</span>
                 </h2>
@@ -1400,7 +1402,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <!-- Szekció cím -->
             <div class="text-center mb-14 reveal">
-                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">// Felszerelés</span>
+                <span class="font-mono text-xs text-neon-green tracking-[0.3em] uppercase">{{i18n:sections.equipmentEyebrow}}</span>
                 <h2 class="font-orbitron text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-2">
                     BIKE <span class="text-neon-blue">SETUP</span>
                 </h2>
@@ -1473,7 +1475,7 @@
                     SPEED <span class="text-neon-blue">CHALLENGE</span> 🎮
                 </h2>
                 <p class="text-gray-400 mt-3 font-body text-sm sm:text-base">
-                    Kattints minél gyorsabban 10 másodpercig! Milyen gyors vagy?
+                    {{i18n:game.instructions}}
                 </p>
             </div>
 
@@ -1484,7 +1486,7 @@
                     <div class="font-orbitron text-5xl sm:text-6xl font-bold text-white mb-2" id="game-timer">
                         10.0
                     </div>
-                    <div class="text-xs font-mono text-gray-500 tracking-wider uppercase">Másodperc</div>
+                    <div class="text-xs font-mono text-gray-500 tracking-wider uppercase">{{i18n:game.secondsLabel}}</div>
                     <!-- Timer bar -->
                     <div class="timer-bar mt-3 max-w-xs mx-auto">
                         <div class="timer-bar-fill" id="timer-bar-fill" style="width: 100%"></div>
@@ -1496,21 +1498,21 @@
                     <div class="font-orbitron text-3xl sm:text-4xl font-bold text-neon-green neon-text-green" id="click-count">
                         0
                     </div>
-                    <div class="text-xs font-mono text-gray-500 tracking-wider uppercase mt-1">Kattintás</div>
+                    <div class="text-xs font-mono text-gray-500 tracking-wider uppercase mt-1">{{i18n:game.clicksLabel}}</div>
                 </div>
 
                 <!-- Game gomb -->
-                <button id="game-btn" class="game-btn text-lg sm:text-xl font-bold" aria-label="Kattints a játékhoz">
+                <button id="game-btn" class="game-btn text-lg sm:text-xl font-bold" aria-label="{{i18n:aria.gameButton}}">
                     START ⚡
                 </button>
 
                 <!-- Eredmény -->
                 <div id="game-result" class="mt-6 hidden">
-                    <div class="font-mono text-sm text-gray-400 mb-1">Eredmény:</div>
+                    <div class="font-mono text-sm text-gray-400 mb-1">{{i18n:game.resultLabel}}</div>
                     <div class="font-orbitron text-2xl sm:text-3xl font-bold text-neon-blue" id="game-cps">0.0 CPS</div>
                     <div class="font-orbitron text-lg mt-2" id="game-rank"></div>
                     <button id="game-restart" class="mt-4 font-mono text-xs tracking-wider text-gray-400 hover:text-neon-blue transition-colors border border-gray-700 hover:border-neon-blue/50 px-4 py-2 rounded-lg">
-                        ÚJRA ↺
+                        {{i18n:game.retryLabel}}
                     </button>
                 </div>
             </div>
@@ -1608,7 +1610,7 @@
             </div>
 
             <!-- Easter egg szöveg - kattintásra konfetti -->
-            <p class="text-gray-500 text-sm font-mono cursor-pointer hover:text-gray-300 transition-colors" id="footer-easter-egg" role="button" tabindex="0" aria-label="Kattints a meglepetésért">
+            <p class="text-gray-500 text-sm font-mono cursor-pointer hover:text-gray-300 transition-colors" id="footer-easter-egg" role="button" tabindex="0" aria-label="{{i18n:aria.footerEasterEgg}}">
                 Made with ❤️ and 🚴
             </p>
             <p class="text-gray-600 text-xs font-mono mt-2">
@@ -1759,7 +1761,7 @@
                 clickCountEl.textContent = '0';
                 timerEl.textContent = '10.0';
                 timerBarFill.style.width = '100%';
-                btn.textContent = 'START ⚡';
+                btn.textContent = '{{i18n:game.startLabel}}';
                 btn.classList.remove('active');
                 resultEl.classList.add('hidden');
             }
@@ -1769,7 +1771,7 @@
                 clicks = 0;
                 startTime = Date.now();
                 clickCountEl.textContent = '0';
-                btn.textContent = 'KATTINTS! 🔥';
+                btn.textContent = '{{i18n:game.clickingLabel}}';
                 btn.classList.add('active');
                 resultEl.classList.add('hidden');
 
@@ -1792,7 +1794,7 @@
                 clearInterval(timerInterval);
                 timerEl.textContent = '0.0';
                 timerBarFill.style.width = '0%';
-                btn.textContent = 'VÉGE! 🏁';
+                btn.textContent = '{{i18n:game.endLabel}}';
                 btn.classList.remove('active');
 
                 // CPS számítás
@@ -1803,15 +1805,15 @@
                 let rank = '';
                 const cpsNum = parseFloat(cps);
                 if (cpsNum < 3) {
-                    rank = '🐌 Kezdő – Még gyakorolj!';
+                    rank = '{{i18n:game.rankBeginner}}';
                 } else if (cpsNum < 5) {
-                    rank = '🚶 Amatőr – Nem rossz!';
+                    rank = '{{i18n:game.rankAmateur}}';
                 } else if (cpsNum < 7) {
-                    rank = '🚴 Profi – Jó tempó!';
+                    rank = '{{i18n:game.rankPro}}';
                 } else if (cpsNum < 9) {
-                    rank = '⚡ Bajnok – Szuper gyors!';
+                    rank = '{{i18n:game.rankChampion}}';
                 } else {
-                    rank = '🏆 LEGENDA – Hihetetlen! 🔥';
+                    rank = '{{i18n:game.rankLegend}}';
                 }
                 rankEl.textContent = rank;
 
