@@ -172,6 +172,12 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         select.neon-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300D4FF' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+
+        .translatable-field { margin-bottom: 2px; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 4px; }
+        .lang-tab { font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #333; background: transparent; color: #888; cursor: pointer; }
+        .lang-tab.active { color: #00D4FF; border-color: #00D4FF; }
+        .lang-input.hidden { display: none; }
     </style>
 </head>
 <body>
@@ -263,7 +269,7 @@
             <!-- Intro text -->
             <div class="glass-card p-4 mb-6">
                 <label class="block text-xs text-gray-400 mb-1 font-medium">Bevezető szöveg (HTML engedélyezett)</label>
-                <textarea id="ach-intro" class="neon-input" rows="3"></textarea>
+                <div id="ach-intro-editor"></div>
             </div>
 
             <div id="achievements-editor"></div>
@@ -312,7 +318,7 @@
                     </div>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">Alcím</label>
-                        <input type="text" id="hero-subtitle" class="neon-input">
+                        <div id="hero-subtitle-editor"></div>
                     </div>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">Csapat</label>
@@ -334,7 +340,7 @@
                 <h3 class="font-orbitron text-sm font-bold text-neon-blue mb-4">💬 MOTIVÁCIÓ</h3>
                 <div class="mb-3">
                     <label class="block text-xs text-gray-400 mb-1">Fő idézet (HTML engedélyezett)</label>
-                    <textarea id="motivation-quote" class="neon-input" rows="3"></textarea>
+                    <div id="motivation-quote-editor"></div>
                 </div>
                 <div id="motivation-cards-editor" class="space-y-3"></div>
                 <button class="neon-btn mt-3 text-xs" onclick="addMotivationCard()">+ Kártya hozzáadása</button>
@@ -346,7 +352,7 @@
                 <div class="grid gap-3 sm:grid-cols-2 mb-3">
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">Gép neve</label>
-                        <input type="text" id="bike-name" class="neon-input">
+                        <div id="bike-name-editor"></div>
                     </div>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">Kép (fájlnév)</label>
@@ -367,7 +373,7 @@
                     </div>
                     <div>
                         <label class="block text-xs text-gray-400 mb-1">Copyright szöveg</label>
-                        <input type="text" id="footer-copyright" class="neon-input">
+                        <div id="footer-copyright-editor"></div>
                     </div>
                 </div>
             </div>
@@ -616,7 +622,7 @@ function collectFormData() {
 
     // Hero
     c.hero.name = document.getElementById('hero-name').value;
-    c.hero.subtitle = document.getElementById('hero-subtitle').value;
+    c.hero.subtitle = collectField('hero.subtitle');
     c.hero.team = document.getElementById('hero-team').value;
     c.hero.profileYear = document.getElementById('hero-year').value;
     c.hero.heroImage = document.getElementById('hero-image').value;
@@ -625,56 +631,68 @@ function collectFormData() {
     document.querySelectorAll('[data-stat-index]').forEach(card => {
         const i = parseInt(card.dataset.statIndex);
         c.stats[i].icon = card.querySelector('.stat-icon').value;
-        c.stats[i].label = card.querySelector('.stat-label').value;
-        c.stats[i].value = card.querySelector('.stat-value').value;
+        c.stats[i].label = collectField(`stats[${i}].label`);
+        c.stats[i].value = collectField(`stats[${i}].value`);
         c.stats[i].color = card.querySelector('.stat-color').value;
     });
 
     // Achievements intro
-    c.achievements.intro = document.getElementById('ach-intro').value;
+    c.achievements.intro = collectField('achievements.intro');
 
-    // Achievements results - collected from DOM
+    // Achievements categories & results - collected from DOM
     c.achievements.categories.forEach((cat, ci) => {
+        cat.name = collectField(`cat[${ci}].name`);
         const catEl = document.querySelector(`[data-category-index="${ci}"]`);
         if (!catEl) return;
         catEl.querySelectorAll('[data-result-index]').forEach(resEl => {
             const ri = parseInt(resEl.dataset.resultIndex);
             const r = cat.results[ri];
             if (!r) return;
-            r.ageGroup = resEl.querySelector('.res-age').value;
+            r.ageGroup = collectField(`res[${ci}][${ri}].ageGroup`);
             r.title = resEl.querySelector('.res-title').value;
-            r.description = resEl.querySelector('.res-desc')?.value || '';
-            if (!r.subResults) {
+            r.description = collectField(`res[${ci}][${ri}].description`);
+            if (r.subResults) {
+                resEl.querySelectorAll('[data-subresult-index]').forEach(subEl => {
+                    const si = parseInt(subEl.dataset.subresultIndex);
+                    const sr = r.subResults[si];
+                    if (!sr) return;
+                    sr.medal = subEl.querySelector('.sub-medal').value;
+                    sr.event = collectField(`sub[${ci}][${ri}][${si}].event`);
+                    sr.place = collectField(`sub[${ci}][${ri}][${si}].place`);
+                });
+            } else {
                 r.medal = resEl.querySelector('.res-medal').value;
-                r.place = resEl.querySelector('.res-place').value;
+                r.place = collectField(`res[${ci}][${ri}].place`);
             }
         });
     });
 
     // Motivation
-    c.motivation.quote = document.getElementById('motivation-quote').value;
+    c.motivation.quote = collectField('motivation.quote');
     c.motivation.cards = [];
     document.querySelectorAll('[data-motcard-index]').forEach(cardEl => {
+        const i = parseInt(cardEl.dataset.motcardIndex);
         c.motivation.cards.push({
             icon: cardEl.querySelector('.motcard-icon').value,
-            text: cardEl.querySelector('.motcard-text').value
+            text: collectField(`motcard[${i}].text`)
         });
     });
 
     // Bike
-    c.bike.name = document.getElementById('bike-name').value;
+    c.bike.name = collectField('bike.name');
     c.bike.image = document.getElementById('bike-image').value;
     c.bike.specs = [];
     document.querySelectorAll('[data-spec-index]').forEach(specEl => {
+        const i = parseInt(specEl.dataset.specIndex);
         c.bike.specs.push({
-            label: specEl.querySelector('.spec-label').value,
+            label: collectField(`spec[${i}].label`),
             value: specEl.querySelector('.spec-value').value
         });
     });
 
     // Footer
     c.footer.madeWith = document.getElementById('footer-madewith').value;
-    c.footer.copyright = document.getElementById('footer-copyright').value;
+    c.footer.copyright = collectField('footer.copyright');
 }
 
 // ============================================
@@ -695,9 +713,9 @@ function renderStatsEditor(stats) {
         <div class="glass-card p-4" data-stat-index="${i}">
             <div class="flex items-center gap-2 mb-3">
                 <input type="text" class="neon-input stat-icon" value="${s.icon}" style="width: 50px; text-align: center; font-size: 20px;">
-                <input type="text" class="neon-input stat-label flex-1" value="${escHtml(s.label)}">
+                <div class="flex-1">${renderField(`stats[${i}].label`, s.label)}</div>
             </div>
-            <input type="text" class="neon-input stat-value mb-2" value="${escHtml(s.value)}">
+            <div class="mb-2">${renderField(`stats[${i}].value`, s.value)}</div>
             <select class="neon-input stat-color">
                 <option value="white" ${s.color === 'white' ? 'selected' : ''}>⬜ Fehér</option>
                 <option value="blue" ${s.color === 'blue' ? 'selected' : ''}>🔵 Kék (neon)</option>
@@ -708,33 +726,42 @@ function renderStatsEditor(stats) {
 }
 
 function renderAchievementsEditor(ach) {
-    document.getElementById('ach-intro').value = ach.intro;
+    document.getElementById('ach-intro-editor').innerHTML = renderField('achievements.intro', ach.intro, { textarea: true, rows: 3 });
     const container = document.getElementById('achievements-editor');
 
     let html = '';
     ach.categories.forEach((cat, ci) => {
         html += `<div class="glass-card p-4 mb-4" data-category-index="${ci}">
-            <h3 class="font-orbitron text-sm font-bold text-white mb-4">${cat.icon} ${escHtml(cat.name)}</h3>`;
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-lg">${cat.icon}</span>
+                <div class="flex-1 font-orbitron text-sm font-bold text-white">${renderField(`cat[${ci}].name`, cat.name)}</div>
+            </div>`;
 
         cat.results.forEach((r, ri) => {
             html += `<div class="border border-white/5 rounded-lg p-3 mb-3" data-result-index="${ri}">
                 <div class="grid gap-2 sm:grid-cols-2 mb-2">
-                    <input type="text" class="neon-input res-age" value="${escHtml(r.ageGroup)}" placeholder="Korcsoport">
+                    <div>${renderField(`res[${ci}][${ri}].ageGroup`, r.ageGroup, { placeholder: 'Korcsoport' })}</div>
                     <input type="text" class="neon-input res-title" value="${escHtml(r.title)}" placeholder="Verseny neve">
                 </div>
-                <textarea class="neon-input res-desc mb-2" rows="2" placeholder="Leírás (opcionális)">${escHtml(r.description || '')}</textarea>`;
+                <div class="mb-2">${renderField(`res[${ci}][${ri}].description`, r.description || '', { textarea: true, rows: 2, placeholder: 'Leírás (opcionális)' })}</div>`;
 
             if (r.subResults) {
-                html += `<div class="text-xs text-gray-500 mb-1">Al-eredmények (kézzel szerkeszthető a JSON-ban)</div>
-                    <div class="text-xs text-gray-400 space-y-1">`;
-                r.subResults.forEach(sr => {
-                    html += `<div>${sr.medal} ${escHtml(sr.event)} – ${escHtml(sr.place)}</div>`;
+                html += `<div class="text-xs text-gray-500 mb-1">Al-eredmények</div>
+                    <div class="space-y-2">`;
+                r.subResults.forEach((sr, si) => {
+                    html += `<div class="border border-white/10 rounded p-2" data-subresult-index="${si}">
+                        <div class="flex gap-2 mb-1">
+                            <input type="text" class="neon-input sub-medal" value="${escHtml(sr.medal || '')}" style="width: 50px; text-align: center;">
+                            <div class="flex-1">${renderField(`sub[${ci}][${ri}][${si}].event`, sr.event, { placeholder: 'Esemény' })}</div>
+                        </div>
+                        <div>${renderField(`sub[${ci}][${ri}][${si}].place`, sr.place, { placeholder: 'Helyezés' })}</div>
+                    </div>`;
                 });
                 html += '</div>';
             } else {
                 html += `<div class="grid grid-cols-3 gap-2">
                     <input type="text" class="neon-input res-medal" value="${escHtml(r.medal || '')}" placeholder="🥇">
-                    <input type="text" class="neon-input res-place col-span-2" value="${escHtml(r.place || '')}" placeholder="1. hely">
+                    <div class="col-span-2">${renderField(`res[${ci}][${ri}].place`, r.place || '', { placeholder: '1. hely' })}</div>
                 </div>`;
             }
 
@@ -752,23 +779,23 @@ function renderAchievementsEditor(ach) {
 function renderTextsEditor(c) {
     // Hero
     document.getElementById('hero-name').value = c.hero.name;
-    document.getElementById('hero-subtitle').value = c.hero.subtitle;
+    document.getElementById('hero-subtitle-editor').innerHTML = renderField('hero.subtitle', c.hero.subtitle);
     document.getElementById('hero-team').value = c.hero.team;
     document.getElementById('hero-year').value = c.hero.profileYear || '2025';
     document.getElementById('hero-image').value = c.hero.heroImage;
 
     // Motivation
-    document.getElementById('motivation-quote').value = c.motivation.quote;
+    document.getElementById('motivation-quote-editor').innerHTML = renderField('motivation.quote', c.motivation.quote, { textarea: true, rows: 3 });
     renderMotivationCards(c.motivation.cards);
 
     // Bike
-    document.getElementById('bike-name').value = c.bike.name;
+    document.getElementById('bike-name-editor').innerHTML = renderField('bike.name', c.bike.name);
     document.getElementById('bike-image').value = c.bike.image;
     renderBikeSpecs(c.bike.specs);
 
     // Footer
     document.getElementById('footer-madewith').value = c.footer.madeWith;
-    document.getElementById('footer-copyright').value = c.footer.copyright;
+    document.getElementById('footer-copyright-editor').innerHTML = renderField('footer.copyright', c.footer.copyright);
 }
 
 function renderMotivationCards(cards) {
@@ -776,7 +803,7 @@ function renderMotivationCards(cards) {
     container.innerHTML = cards.map((card, i) => `
         <div class="flex gap-2 items-start" data-motcard-index="${i}">
             <input type="text" class="neon-input motcard-icon" value="${card.icon}" style="width: 50px; text-align: center;">
-            <input type="text" class="neon-input motcard-text flex-1" value="${escHtml(card.text)}">
+            <div class="flex-1">${renderField(`motcard[${i}].text`, card.text)}</div>
             <button class="text-red-400 text-xs hover:text-red-300 mt-2" onclick="removeMotivationCard(${i})">🗑</button>
         </div>
     `).join('');
@@ -786,7 +813,7 @@ function renderBikeSpecs(specs) {
     const container = document.getElementById('bike-specs-editor');
     container.innerHTML = specs.map((s, i) => `
         <div class="flex gap-2" data-spec-index="${i}">
-            <input type="text" class="neon-input spec-label" value="${escHtml(s.label)}" style="width: 120px;" placeholder="Label">
+            <div style="width: 140px;">${renderField(`spec[${i}].label`, s.label, { placeholder: 'Label' })}</div>
             <input type="text" class="neon-input spec-value flex-1" value="${escHtml(s.value)}" placeholder="Érték">
             <button class="text-red-400 text-xs hover:text-red-300" onclick="removeBikeSpec(${i})">🗑</button>
         </div>
@@ -979,6 +1006,92 @@ function escHtml(s) {
     if (!s) return '';
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
+// ============================================
+// TRANSLATABLE FIELDS (HU/EN/DE/SL)
+// ============================================
+// Since Task 6, translatable fields in data/content.json are objects
+// { hu, en, de, sl } — but a handful of fields (e.g. stats[i].value,
+// result.ageGroup/description) are only *sometimes* translated: some
+// array entries stayed plain strings (proper nouns, "U11", empty "").
+// So we decide render mode per actual value, not per fixed field list:
+// an object renders as HU/EN/DE/SL tabs, a string renders as a plain
+// input/textarea. This guarantees save() reproduces the exact same
+// dict-vs-plain-string shape that was loaded, for every field.
+const EDITOR_LANGS = ['hu', 'en', 'de', 'sl'];
+
+function isTranslatableValue(v) {
+    return v !== null && typeof v === 'object' && !Array.isArray(v);
+}
+
+function renderTranslatableInput(fieldPath, valueObj, opts = {}) {
+    const type = opts.textarea ? '' : ' type="text"';
+    const rows = opts.textarea ? ` rows="${opts.rows || 2}"` : '';
+    const placeholder = opts.placeholder ? ` placeholder="${escHtml(opts.placeholder)}"` : '';
+    const tabs = EDITOR_LANGS.map((lang, idx) => `
+        <button type="button" class="lang-tab${idx === 0 ? ' active' : ''}" data-lang="${lang}" data-field="${fieldPath}">${lang.toUpperCase()}</button>
+    `).join('');
+    const inputs = EDITOR_LANGS.map((lang, idx) => {
+        const val = escHtml((valueObj && valueObj[lang]) || '');
+        const hiddenCls = idx === 0 ? '' : ' hidden';
+        return opts.textarea
+            ? `<textarea class="neon-input lang-input${hiddenCls}" data-lang="${lang}" data-field="${fieldPath}"${placeholder}${rows}>${val}</textarea>`
+            : `<input${type} class="neon-input lang-input${hiddenCls}" data-lang="${lang}" data-field="${fieldPath}"${placeholder} value="${val}">`;
+    }).join('');
+    return `<div class="translatable-field" data-field="${fieldPath}">
+        <div class="lang-tabs">${tabs}</div>
+        ${inputs}
+    </div>`;
+}
+
+// Dispatcher: renders a tabbed translatable field for object values,
+// a plain input/textarea for string values. Non-translatable fields
+// (icons, colors, proper-noun titles, etc.) should NOT go through this
+// — keep using the existing plain input markup for those.
+function renderField(fieldPath, value, opts = {}) {
+    if (isTranslatableValue(value)) {
+        return renderTranslatableInput(fieldPath, value, opts);
+    }
+    const type = opts.textarea ? '' : ' type="text"';
+    const rows = opts.textarea ? ` rows="${opts.rows || 2}"` : '';
+    const placeholder = opts.placeholder ? ` placeholder="${escHtml(opts.placeholder)}"` : '';
+    const val = escHtml(value || '');
+    return opts.textarea
+        ? `<textarea class="neon-input plain-field" data-field="${fieldPath}"${placeholder}${rows}>${val}</textarea>`
+        : `<input${type} class="neon-input plain-field" data-field="${fieldPath}"${placeholder} value="${val}">`;
+}
+
+// Reads back whatever renderField produced at fieldPath: an object of
+// {hu,en,de,sl} if it's currently a tabbed field, or the plain string
+// value otherwise. Because the outer .translatable-field wrapper carries
+// the same data-field attribute as its inner tabs/inputs, and appears
+// earlier in document order, querySelector always finds the wrapper.
+function collectField(fieldPath) {
+    const el = document.querySelector(`[data-field="${fieldPath}"]`);
+    if (!el) return '';
+    if (el.classList.contains('translatable-field')) {
+        const result = {};
+        el.querySelectorAll('.lang-input').forEach(inp => {
+            result[inp.dataset.lang] = inp.value;
+        });
+        return result;
+    }
+    return el.value;
+}
+
+// Language-tab click handler, scoped per field so multiple translatable
+// fields on the same page never affect each other.
+document.addEventListener('click', (e) => {
+    const tab = e.target.closest('.lang-tab');
+    if (!tab) return;
+    const container = tab.closest('.translatable-field');
+    if (!container) return;
+    const lang = tab.dataset.lang;
+    container.querySelectorAll('.lang-tab').forEach(t => t.classList.toggle('active', t === tab));
+    container.querySelectorAll('.lang-input').forEach(inp => {
+        inp.classList.toggle('hidden', inp.dataset.lang !== lang);
+    });
+});
 
 function setStatus(text, type) {
     const dot = document.getElementById('status-dot');
