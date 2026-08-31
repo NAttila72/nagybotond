@@ -1,7 +1,12 @@
 {
   "hero": {
     "name": "NAGY BOTOND",
-    "subtitle": "🚴 Road & Track Cyclist | 11 éves | Hungary 🇭🇺",
+    "subtitle": {
+      "hu": "🚴 Road & Track Cyclist | 11 éves | Hungary 🇭🇺",
+      "en": "🚴 Road & Track Cyclist | 11 years old | Hungary 🇭🇺",
+      "de": "🚴 Road & Track Cyclist | 11 Jahre alt | Hungary 🇭🇺",
+      "sl": "🚴 Road & Track Cyclist | 11 let | Hungary 🇭🇺"
+    },
     "team": "KŐBÁNYA CYCLING TEAM",
     "profileYear": "2025-2026",
     "heroImage": "Pictures/IMG_1952.jpeg"
@@ -9,71 +14,161 @@
   "stats": [
     {
       "icon": "🏆",
-      "label": "Érmek",
+      "label": {
+        "hu": "Érmek",
+        "en": "Medals",
+        "de": "Medaillen",
+        "sl": "Medalje"
+      },
       "value": "13",
       "dataCount": "187",
       "color": "blue"
     },
     {
       "icon": "🚴",
-      "label": "Specializáció",
+      "label": {
+        "hu": "Specializáció",
+        "en": "Specialty",
+        "de": "Spezialisierung",
+        "sl": "Specialnost"
+      },
       "value": "Road & Track",
       "color": "white"
     },
     {
       "icon": "📅",
-      "label": "Versenyez",
-      "value": "2024 óta",
+      "label": {
+        "hu": "Versenyez",
+        "en": "Racing",
+        "de": "Rennfahrer",
+        "sl": "Tekmuje"
+      },
+      "value": {
+        "hu": "2024 óta",
+        "en": "Since 2024",
+        "de": "Seit 2024",
+        "sl": "Od 2024"
+      },
       "color": "white"
     },
     {
       "icon": "⚡",
-      "label": "Kedvenc táv",
-      "value": "20 km hegy",
+      "label": {
+        "hu": "Kedvenc táv",
+        "en": "Favorite distance",
+        "de": "Lieblingsstrecke",
+        "sl": "Najljubša razdalja"
+      },
+      "value": {
+        "hu": "20 km hegy",
+        "en": "20 km hills",
+        "de": "20 km Berg",
+        "sl": "20 km hribov"
+      },
       "color": "green"
     },
     {
       "icon": "💪",
-      "label": "Erősség",
-      "value": "Hegymenet 🏔️",
+      "label": {
+        "hu": "Erősség",
+        "en": "Strength",
+        "de": "Stärke",
+        "sl": "Moč"
+      },
+      "value": {
+        "hu": "Hegymenet 🏔️",
+        "en": "Climbing 🏔️",
+        "de": "Bergauf 🏔️",
+        "sl": "Vzpon 🏔️"
+      },
       "color": "white"
     },
     {
       "icon": "🎯",
-      "label": "Álom",
-      "value": "🌈 & sárga trikó",
+      "label": {
+        "hu": "Álom",
+        "en": "Dream",
+        "de": "Traum",
+        "sl": "Sanje"
+      },
+      "value": {
+        "hu": "🌈 & sárga trikó",
+        "en": "🌈 & yellow jersey",
+        "de": "🌈 & Gelbes Trikot",
+        "sl": "🌈 & rumena majica"
+      },
       "color": "white"
     }
   ],
   "achievements": {
-    "intro": "Boti 2025-ben még az <span class=\"text-neon-blue font-medium\">U11</span>-es korcsoportban versenyzett, de gyakran indult 1–2 korosztállyal feljebb, ahol a nagyobb távok és erősebb mezőnyök ellen is remekül helytállt. Sajnos 2026-ban egy kisebb műtét miatt egy ideig nem versenyezhetett, július végétől azonban újra edzésben van, és <span class=\"text-neon-blue font-medium\">szeptember végén, októberben</span> tervezi, hogy újra rajthoz áll a versenyeken.",
+    "intro": {
+      "hu": "Boti 2025-ben még az <span class=\"text-neon-blue font-medium\">U11</span>-es korcsoportban versenyzett, de gyakran indult 1–2 korosztállyal feljebb, ahol a nagyobb távok és erősebb mezőnyök ellen is remekül helytállt. Sajnos 2026-ban egy kisebb műtét miatt egy ideig nem versenyezhetett, július végétől azonban újra edzésben van, és <span class=\"text-neon-blue font-medium\">szeptember végén, októberben</span> tervezi, hogy újra rajthoz áll a versenyeken.",
+      "en": "In 2025, Boti was still racing in the <span class=\"text-neon-blue font-medium\">U11</span> age group, but often started 1–2 categories up, where he held his own brilliantly against longer distances and stronger fields. Unfortunately, in 2026 a minor surgery kept him off the bike for a while, but he's been back in training since the end of July, and he's planning to line up at races again in <span class=\"text-neon-blue font-medium\">late September and October</span>.",
+      "de": "2025 ist Boti noch in der Altersklasse <span class=\"text-neon-blue font-medium\">U11</span> gestartet, oft aber auch 1–2 Jahrgänge höher, wo er sich gegen längere Strecken und stärkere Felder hervorragend geschlagen hat. 2026 musste er wegen einer kleinen Operation leider eine Zeit lang pausieren, ist aber seit Ende Juli wieder im Training und plant, <span class=\"text-neon-blue font-medium\">Ende September, Anfang Oktober</span> wieder an den Start zu gehen.",
+      "sl": "Leta 2025 je Boti še tekmoval v kategoriji <span class=\"text-neon-blue font-medium\">U11</span>, a je pogosto štartal 1–2 kategoriji višje, kjer se je odlično odrezal tudi proti daljšim razdaljam in močnejšim poljem. Žal je moral leta 2026 zaradi manjše operacije nekaj časa mirovati, od konca julija pa je spet v treningu in načrtuje, da se <span class=\"text-neon-blue font-medium\">konec septembra, v oktobru</span> znova poda na štartno črto."
+    },
     "categories": [
       {
-        "name": "Országúti kerékpár",
+        "name": {
+          "hu": "Országúti kerékpár",
+          "en": "Road cycling",
+          "de": "Straßenrad",
+          "sl": "Cestno kolesarstvo"
+        },
         "icon": "🚴",
         "results": [
           {
             "ageGroup": "U11",
             "title": "Diákolimpia Országúti Időfutam",
-            "description": "Egyéni versenyszám, ahol a versenyzők időre teljesítik a kijelölt távot.",
+            "description": {
+              "hu": "Egyéni versenyszám, ahol a versenyzők időre teljesítik a kijelölt távot.",
+              "en": "An individual event where racers complete the set distance against the clock.",
+              "de": "Einzeldisziplin, bei der die Fahrer die vorgegebene Strecke auf Zeit absolvieren.",
+              "sl": "Individualna disciplina, kjer tekmovalci določeno razdaljo prevozijo na čas."
+            },
             "medal": "🥉",
-            "place": "3. hely",
+            "place": {
+              "hu": "3. hely",
+              "en": "3rd place",
+              "de": "3. Platz",
+              "sl": "3. mesto"
+            },
             "placeColor": "text-amber-400"
           },
           {
             "ageGroup": "U13 ⬆️",
             "title": "Pilis Kupa Hegyi Időfutam",
-            "description": "Emelkedős pályán rendezett időfutam, ahol az erő és állóképesség dönt.",
+            "description": {
+              "hu": "Emelkedős pályán rendezett időfutam, ahol az erő és állóképesség dönt.",
+              "en": "A time trial on an uphill course, where strength and endurance make the difference.",
+              "de": "Zeitfahren auf einer bergigen Strecke, bei dem Kraft und Ausdauer entscheiden.",
+              "sl": "Vožnja na čas na vzponu, kjer odločata moč in vzdržljivost."
+            },
             "medal": "🥈",
-            "place": "2. hely",
+            "place": {
+              "hu": "2. hely",
+              "en": "2nd place",
+              "de": "2. Platz",
+              "sl": "2. mesto"
+            },
             "placeColor": "text-gray-300"
           },
           {
             "ageGroup": "U13 ⬆️",
             "title": "Mátra Kör",
-            "description": "Hegyi országúti verseny. Gyöngyös-Mátraháza",
+            "description": {
+              "hu": "Hegyi országúti verseny. Gyöngyös-Mátraháza",
+              "en": "A hilly road race. Gyöngyös–Mátraháza",
+              "de": "Bergiges Straßenrennen. Gyöngyös–Mátraháza",
+              "sl": "Hribovita cestna dirka. Gyöngyös–Mátraháza"
+            },
             "medal": "🥈",
-            "place": "2. hely",
+            "place": {
+              "hu": "2. hely",
+              "en": "2nd place",
+              "de": "2. Platz",
+              "sl": "2. mesto"
+            },
             "placeColor": "text-gray-300"
           },
           {
@@ -81,13 +176,23 @@
             "title": "Brigetio Időfutam",
             "description": "",
             "medal": "🥉",
-            "place": "3. hely",
+            "place": {
+              "hu": "3. hely",
+              "en": "3rd place",
+              "de": "3. Platz",
+              "sl": "3. mesto"
+            },
             "placeColor": "text-amber-400"
           }
         ]
       },
       {
-        "name": "Pályakerékpár",
+        "name": {
+          "hu": "Pályakerékpár",
+          "en": "Track cycling",
+          "de": "Bahnradsport",
+          "sl": "Kolesarstvo na stezi"
+        },
         "icon": "🏟️",
         "results": [
           {
@@ -95,63 +200,148 @@
             "title": "BringAréna Kupa",
             "description": "",
             "medal": "🥇",
-            "place": "1. hely 🔥",
+            "place": {
+              "hu": "1. hely 🔥",
+              "en": "1st place 🔥",
+              "de": "1. Platz 🔥",
+              "sl": "1. mesto 🔥"
+            },
             "placeColor": "text-neon-blue",
             "highlight": true
           },
           {
-            "ageGroup": "U15 mezőny · U13 értékelés ⬆️⬆️",
+            "ageGroup": {
+              "hu": "U15 mezőny · U13 értékelés ⬆️⬆️",
+              "en": "U15 field · U13 classification ⬆️⬆️",
+              "de": "U15-Feld · U13-Wertung ⬆️⬆️",
+              "sl": "Polje U15 · Razvrstitev U13 ⬆️⬆️"
+            },
             "title": "Szlovák Kupa – Budapest",
             "description": "",
             "subResults": [
               {
                 "medal": "🥈",
                 "event": "Scratch",
-                "place": "2. hely"
+                "place": {
+                  "hu": "2. hely",
+                  "en": "2nd place",
+                  "de": "2. Platz",
+                  "sl": "2. mesto"
+                }
               },
               {
                 "medal": "🥈",
-                "event": "Pontverseny",
-                "place": "2. hely"
+                "event": {
+                  "hu": "Pontverseny",
+                  "en": "Points race",
+                  "de": "Punktefahren",
+                  "sl": "Točkovna dirka"
+                },
+                "place": {
+                  "hu": "2. hely",
+                  "en": "2nd place",
+                  "de": "2. Platz",
+                  "sl": "2. mesto"
+                }
               },
               {
                 "medal": "🥈",
-                "event": "Elimináció",
-                "place": "2. hely"
+                "event": {
+                  "hu": "Elimináció",
+                  "en": "Elimination",
+                  "de": "Ausscheidungsfahren",
+                  "sl": "Izločanje"
+                },
+                "place": {
+                  "hu": "2. hely",
+                  "en": "2nd place",
+                  "de": "2. Platz",
+                  "sl": "2. mesto"
+                }
               },
               {
                 "medal": "🥈",
-                "event": "Omnium összesített",
-                "place": "2. hely",
+                "event": {
+                  "hu": "Omnium összesített",
+                  "en": "Omnium overall",
+                  "de": "Omnium Gesamt",
+                  "sl": "Omnium skupno"
+                },
+                "place": {
+                  "hu": "2. hely",
+                  "en": "2nd place",
+                  "de": "2. Platz",
+                  "sl": "2. mesto"
+                },
                 "isTotal": true,
                 "totalColor": "text-neon-blue"
               }
             ]
           },
           {
-            "ageGroup": "U15 mezőny · U13 értékelés ⬆️⬆️",
+            "ageGroup": {
+              "hu": "U15 mezőny · U13 értékelés ⬆️⬆️",
+              "en": "U15 field · U13 classification ⬆️⬆️",
+              "de": "U15-Feld · U13-Wertung ⬆️⬆️",
+              "sl": "Polje U15 · Razvrstitev U13 ⬆️⬆️"
+            },
             "title": "Szlovák Kupa – Prága",
             "description": "",
             "subResults": [
               {
                 "medal": "🥉",
                 "event": "Scratch",
-                "place": "3. hely"
+                "place": {
+                  "hu": "3. hely",
+                  "en": "3rd place",
+                  "de": "3. Platz",
+                  "sl": "3. mesto"
+                }
               },
               {
                 "medal": "🥉",
-                "event": "Pontverseny",
-                "place": "3. hely"
+                "event": {
+                  "hu": "Pontverseny",
+                  "en": "Points race",
+                  "de": "Punktefahren",
+                  "sl": "Točkovna dirka"
+                },
+                "place": {
+                  "hu": "3. hely",
+                  "en": "3rd place",
+                  "de": "3. Platz",
+                  "sl": "3. mesto"
+                }
               },
               {
                 "medal": "🥈",
-                "event": "Elimináció",
-                "place": "2. hely"
+                "event": {
+                  "hu": "Elimináció",
+                  "en": "Elimination",
+                  "de": "Ausscheidungsfahren",
+                  "sl": "Izločanje"
+                },
+                "place": {
+                  "hu": "2. hely",
+                  "en": "2nd place",
+                  "de": "2. Platz",
+                  "sl": "2. mesto"
+                }
               },
               {
                 "medal": "🥉",
-                "event": "Omnium összesített",
-                "place": "3. hely",
+                "event": {
+                  "hu": "Omnium összesített",
+                  "en": "Omnium overall",
+                  "de": "Omnium Gesamt",
+                  "sl": "Omnium skupno"
+                },
+                "place": {
+                  "hu": "3. hely",
+                  "en": "3rd place",
+                  "de": "3. Platz",
+                  "sl": "3. mesto"
+                },
                 "isTotal": true,
                 "totalColor": "text-amber-400"
               }
@@ -162,19 +352,39 @@
     ]
   },
   "motivation": {
-    "quote": "A fájdalom ideiglenes,<br>\n<span class=\"text-neon-blue neon-text\">a dicsőség örök.</span> 🔥",
+    "quote": {
+      "hu": "A fájdalom ideiglenes,<br>\n<span class=\"text-neon-blue neon-text\">a dicsőség örök.</span> 🔥",
+      "en": "Pain is temporary,<br>\n<span class=\"text-neon-blue neon-text\">glory is forever.</span> 🔥",
+      "de": "Der Schmerz ist vergänglich,<br>\n<span class=\"text-neon-blue neon-text\">der Ruhm ist ewig.</span> 🔥",
+      "sl": "Bolečina je začasna,<br>\n<span class=\"text-neon-blue neon-text\">slava je večna.</span> 🔥"
+    },
     "cards": [
       {
         "icon": "🏔️",
-        "text": "Minden emelkedő után egy lejtő jön. Csak tekerj tovább!"
+        "text": {
+          "hu": "Minden emelkedő után egy lejtő jön. Csak tekerj tovább!",
+          "en": "After every climb comes a descent. Just keep pedaling!",
+          "de": "Nach jedem Anstieg kommt eine Abfahrt. Einfach weiterstrampeln!",
+          "sl": "Za vsakim vzponom pride spust. Samo pelji naprej!"
+        }
       },
       {
         "icon": "⚡",
-        "text": "A sebesség nem ajándék – a sebesség kemény munka eredménye."
+        "text": {
+          "hu": "A sebesség nem ajándék – a sebesség kemény munka eredménye.",
+          "en": "Speed isn't a gift – speed is the result of hard work.",
+          "de": "Geschwindigkeit ist kein Geschenk – Geschwindigkeit ist das Ergebnis harter Arbeit.",
+          "sl": "Hitrost ni darilo – hitrost je rezultat trdega dela."
+        }
       },
       {
         "icon": "🎯",
-        "text": "Az álmok nem teljesülnek maguktól. Minden nap edzés, minden nap egy lépés közelebb."
+        "text": {
+          "hu": "Az álmok nem teljesülnek maguktól. Minden nap edzés, minden nap egy lépés közelebb.",
+          "en": "Dreams don't come true on their own. Every day of training is a step closer.",
+          "de": "Träume erfüllen sich nicht von selbst. Jeder Trainingstag ist ein Schritt näher.",
+          "sl": "Sanje se ne uresničijo same od sebe. Vsak dan treninga je korak bližje."
+        }
       }
     ],
     "photos": [
@@ -183,27 +393,57 @@
     ]
   },
   "bike": {
-    "name": "Országúti gép",
+    "name": {
+      "hu": "Országúti gép",
+      "en": "Road bike",
+      "de": "Straßenrad",
+      "sl": "Cestno kolo"
+    },
     "image": "Pictures/IMG_2310.jpeg",
     "specs": [
       {
-        "label": "Modell",
+        "label": {
+          "hu": "Modell",
+          "en": "Model",
+          "de": "Modell",
+          "sl": "Model"
+        },
         "value": "Bianchi XR3 CV"
       },
       {
-        "label": "Váz",
+        "label": {
+          "hu": "Váz",
+          "en": "Frame",
+          "de": "Rahmen",
+          "sl": "Okvir"
+        },
         "value": "Full Carbon"
       },
       {
-        "label": "Technológia",
+        "label": {
+          "hu": "Technológia",
+          "en": "Technology",
+          "de": "Technologie",
+          "sl": "Tehnologija"
+        },
         "value": "Countervail (CV)"
       },
       {
-        "label": "Kerék",
+        "label": {
+          "hu": "Kerék",
+          "en": "Wheels",
+          "de": "Räder",
+          "sl": "Kolesa"
+        },
         "value": "700c"
       },
       {
-        "label": "Szín",
+        "label": {
+          "hu": "Szín",
+          "en": "Color",
+          "de": "Farbe",
+          "sl": "Barva"
+        },
         "value": "Celeste"
       }
     ]
@@ -213,7 +453,12 @@
   },
   "footer": {
     "madeWith": "Made with ❤️ and 🚴",
-    "copyright": "2026 Nagy Botond. Minden jog fenntartva.",
+    "copyright": {
+      "hu": "2026 Nagy Botond. Minden jog fenntartva.",
+      "en": "2026 Nagy Botond. All rights reserved.",
+      "de": "2026 Nagy Botond. Alle Rechte vorbehalten.",
+      "sl": "2026 Nagy Botond. Vse pravice pridržane."
+    },
     "socialLinks": [
       {
         "platform": "instagram",
